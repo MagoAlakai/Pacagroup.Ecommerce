@@ -1,6 +1,4 @@
-﻿using Pacagroup.Ecommerce.Infraestructura.Interface;
-
-namespace Pacagroup.Ecommerce.Infraestructura.Repository.Extensions;
+﻿namespace Pacagroup.Ecommerce.Infraestructura.Repository.Extensions;
 
 public static class ServiceRegistration
 {
