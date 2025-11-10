@@ -1,15 +1,15 @@
 ﻿namespace Pacagroup.Ecommerce.Domain.Core;
 
-public class CustomerDomain : ICustomerDomain
+public class CustomerServices : ICustomerServices
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public CustomerDomain(IUnitOfWork unitOfWork)
+    public CustomerServices(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<Customer>> GetAllAsyncAsync()
+    public async Task<IEnumerable<Customer>> GetAllAsync()
     {
         IEnumerable<Customer>? customerList = await _unitOfWork.customerRepository.GetAllAsync();
 

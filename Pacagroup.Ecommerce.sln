@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36616.10 d17.14
+VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dominio", "Dominio", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructura", "Infraest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transversal", "Transversal", "{20CA9A29-3DB2-44B4-98D6-AE0B82D6C8ED}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicio", "Servicio", "{B4065656-53EE-47F4-A792-76DC1FEB3572}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{B4065656-53EE-47F4-A792-76DC1FEB3572}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prueba", "Prueba", "{F46C94A9-3506-433D-B1C5-79727D78AC98}"
 EndProject
@@ -21,13 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Domain.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Domain.Interface", "Pacagroup.Ecommerce.Domain.Interface\Pacagroup.Ecommerce.Domain.Interface.csproj", "{628ACF39-B22A-4E76-A94A-650CCA9EAFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicaion.DTO", "Pacagroup.Ecommerce.Aplicaion.DTO\Pacagroup.Ecommerce.Aplicaion.DTO.csproj", "{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.DTO", "Pacagroup.Ecommerce.Aplicaion.DTO\Pacagroup.Ecommerce.Aplicacion.DTO.csproj", "{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicaion.Interface", "Pacagroup.Ecommerce.Aplicaion.Interface\Pacagroup.Ecommerce.Aplicaion.Interface.csproj", "{CA35162C-C11E-4E24-BCE9-9EA3EA4C6915}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.Interface", "Pacagroup.Ecommerce.Aplicaion.Interface\Pacagroup.Ecommerce.Aplicacion.Interface.csproj", "{CA35162C-C11E-4E24-BCE9-9EA3EA4C6915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicaion.Main", "Pacagroup.Ecommerce.Aplicaion.Main\Pacagroup.Ecommerce.Aplicaion.Main.csproj", "{8E2A6659-2514-4360-A3D8-AB213DCC57BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.Main", "Pacagroup.Ecommerce.Aplicaion.Main\Pacagroup.Ecommerce.Aplicacion.Main.csproj", "{8E2A6659-2514-4360-A3D8-AB213DCC57BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicaion.Validator", "Pacagroup.Ecommerce.Aplicaion.Validator\Pacagroup.Ecommerce.Aplicaion.Validator.csproj", "{9E435E7C-6A47-444B-A335-44A129F00CC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.Validator", "Pacagroup.Ecommerce.Aplicaion.Validator\Pacagroup.Ecommerce.Aplicacion.Validator.csproj", "{9E435E7C-6A47-444B-A335-44A129F00CC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Infraestructura.Data", "Pacagroup.Ecommerce.Infraestructura.Data\Pacagroup.Ecommerce.Infraestructura.Data.csproj", "{AAECF4F1-D690-4F60-B683-6747742F9473}"
 EndProject

@@ -1,8 +1,8 @@
 ﻿namespace Pacagroup.Ecommerce.Domain.Interface
 {
-    public interface ICustomerDomain
+    public interface ICustomerServices
     {
-        Task<IEnumerable<Customer>> GetAllAsyncAsync();
+        Task<IEnumerable<Customer>> GetAllAsync();
         Task<Customer?> GetAsync(string customerId);
         Task<bool> InsertAsync(Customer customer);
         Task<bool> UpdateAsync(Customer customer);
