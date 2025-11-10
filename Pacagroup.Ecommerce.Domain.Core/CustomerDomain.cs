@@ -1,30 +1,56 @@
-﻿
-namespace Pacagroup.Ecommerce.Domain.Core;
+﻿namespace Pacagroup.Ecommerce.Domain.Core;
 
 public class CustomerDomain : ICustomerDomain
 {
-    public Task<bool> DeleteAsync(string customerId)
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CustomerDomain(IUnitOfWork unitOfWork)
     {
-        throw new NotImplementedException();
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<IEnumerable<Customer>> GetAllAsyncAsync()
+    public async Task<IEnumerable<Customer>> GetAllAsyncAsync()
     {
-        throw new NotImplementedException();
+        IEnumerable<Customer>? customerList = await _unitOfWork.customerRepository.GetAllAsync();
+
+        return customerList;
     }
 
-    public Task<Customer> GetAsync(string customerId)
+    public async Task<Customer?> GetAsync(string customerId)
     {
-        throw new NotImplementedException();
+        Customer? customer = await _unitOfWork.customerRepository.GetByIdAsync(customerId);
+
+        return customer;
     }
 
-    public Task<bool> InsertAsync(Customer customer)
+    public async Task<bool> InsertAsync(Customer customer)
     {
-        throw new NotImplementedException();
+        Customer? existingCustomer = await _unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
+        if (existingCustomer is not null) return false;
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<bool> UpdateAsync(Customer customer)
+    public async Task<bool> UpdateAsync(Customer customer)
     {
-        throw new NotImplementedException();
+        Customer? existingCustomer = await _unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
+        if (existingCustomer is not null) return false;
+
+        await _unitOfWork.customerRepository.UpdateAsync(customer, customer.Id.ToString());
+        await _unitOfWork.SaveChangesAsync();
+
+        return true;
+    }
+    public async Task<bool> DeleteAsync(string customerId)
+    {
+        Customer? existingCustomer = await _unitOfWork.customerRepository.GetByIdAsync(customerId);
+        if (existingCustomer is not null) return false;
+
+        await _unitOfWork.customerRepository.DeleteAsync(customerId);
+        await _unitOfWork.SaveChangesAsync();
+
+        return true;
     }
 }
