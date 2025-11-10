@@ -1,55 +1,48 @@
 ﻿namespace Pacagroup.Ecommerce.Domain.Core;
 
-public class CustomerServices : ICustomerServices
+public class CustomerServices(IUnitOfWork unitOfWork) : ICustomerServices
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CustomerServices(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<IEnumerable<Customer>> GetAllAsync()
     {
-        IEnumerable<Customer>? customerList = await _unitOfWork.customerRepository.GetAllAsync();
+        IEnumerable<Customer>? customerList = await unitOfWork.customerRepository.GetAllAsync();
 
         return customerList;
     }
 
     public async Task<Customer?> GetAsync(string customerId)
     {
-        Customer? customer = await _unitOfWork.customerRepository.GetByIdAsync(customerId);
+        Customer? customer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
 
         return customer;
     }
 
     public async Task<bool> InsertAsync(Customer customer)
     {
-        Customer? existingCustomer = await _unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
+        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
         if (existingCustomer is not null) return false;
 
-        await _unitOfWork.SaveChangesAsync();
+        await unitOfWork.SaveChangesAsync();
 
         return true;
     }
 
     public async Task<bool> UpdateAsync(Customer customer)
     {
-        Customer? existingCustomer = await _unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
+        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
         if (existingCustomer is not null) return false;
 
-        await _unitOfWork.customerRepository.UpdateAsync(customer, customer.Id.ToString());
-        await _unitOfWork.SaveChangesAsync();
+        await unitOfWork.customerRepository.UpdateAsync(customer, customer.Id.ToString());
+        await unitOfWork.SaveChangesAsync();
 
         return true;
     }
     public async Task<bool> DeleteAsync(string customerId)
     {
-        Customer? existingCustomer = await _unitOfWork.customerRepository.GetByIdAsync(customerId);
+        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
         if (existingCustomer is not null) return false;
 
-        await _unitOfWork.customerRepository.DeleteAsync(customerId);
-        await _unitOfWork.SaveChangesAsync();
+        await unitOfWork.customerRepository.DeleteAsync(customerId);
+        await unitOfWork.SaveChangesAsync();
 
         return true;
     }

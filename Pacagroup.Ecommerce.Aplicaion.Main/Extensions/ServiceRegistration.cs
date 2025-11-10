@@ -2,9 +2,9 @@
 
 public static class ServiceRegistration
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddScoped(typeof(ICustomerApplication), typeof(CustomerApplication));
+        services.AddScoped<ICustomerApplication, CustomerApplication>();
         services.AddAutoMapper(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
 
         return services;

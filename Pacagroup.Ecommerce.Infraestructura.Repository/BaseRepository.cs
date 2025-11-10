@@ -1,17 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿namespace Pacagroup.Ecommerce.Infraestructura.Repository;
 
-namespace Pacagroup.Ecommerce.Infraestructura.Repository;
-
-public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+public class BaseRepository<T>(AppDbContext appDbContext) : IRepository<T> where T : BaseEntity
 {
-    private readonly AppDbContext _appDbContext;
-    private DbSet<T> _entities;
-    public BaseRepository(AppDbContext appDbContext)
-    {
-        _appDbContext = appDbContext;
-        _entities = appDbContext.Set<T>();
-    }
+    private readonly DbSet<T> _entities = appDbContext.Set<T>();
+
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         IEnumerable<T> entities = await _entities.ToListAsync();
@@ -42,7 +34,7 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     public async Task<bool> DeleteAsync(string id)
     {
         T? entity_exist = await _entities.FindAsync(int.Parse(id));
-        if (entity_exist is true) return false;
+        if (entity_exist is null) return false;
 
         _entities.Remove(entity_exist);
 

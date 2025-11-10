@@ -11,7 +11,7 @@ public static class ServiceRegistration
             options.UseSqlServer(connectionString));
 
         // 2) Unit of Work
-        services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // 3) Repositorios concretos (si los inyectas directamente)
         services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
