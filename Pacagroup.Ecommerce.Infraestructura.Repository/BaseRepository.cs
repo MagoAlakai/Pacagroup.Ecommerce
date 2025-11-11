@@ -11,10 +11,13 @@ public class BaseRepository<T>(AppDbContext appDbContext) : IRepository<T> where
     }
     public async Task<T?> GetByIdAsync(string id)
     {
-        return await _entities.FirstOrDefaultAsync(e => e.Id == id);
+        return await _entities.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
     }
     public async Task<T?> PostAsync(T entity)
     {
+        if (string.IsNullOrWhiteSpace(entity.Id))
+            throw new InvalidOperationException("Entity Id cannot be null or empty for insert.");
+
         bool entity_exist = await _entities.AnyAsync(x => x.Id == entity.Id);
         if (entity_exist is true) return null;
 

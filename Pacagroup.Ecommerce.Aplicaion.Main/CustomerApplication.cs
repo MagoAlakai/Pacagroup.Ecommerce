@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.Main;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
 public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICustomerApplication
 {
@@ -46,11 +48,13 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
         return response;
     }
 
-    public async Task<Response<CustomerDTO>> InsertAsync(CustomerDTO customerDTO)
+    public async Task<Response<CustomerDTO>?> InsertAsync(CustomerDTO customerDTO)
     {
+        if (customerDTO is null) return null;
+
         Response<CustomerDTO> response = new();
         Customer customer = mapper.Map<Customer>(customerDTO);
-        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
+        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerDTO.CustomerId);
 
         if (existingCustomer is not null)
         {
@@ -105,6 +109,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
 
         await unitOfWork.SaveChangesAsync();
 
+        response.Data = true;
         response.IsSuccess = true;
         response.Message = "Update succesfull";
 
@@ -127,6 +132,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
         await unitOfWork.customerRepository.DeleteAsync(customerId);
         await unitOfWork.SaveChangesAsync();
 
+        response.Data = true;
         response.IsSuccess = true;
         response.Message = "Delete succesfull";
 

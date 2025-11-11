@@ -9,9 +9,23 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<Customer>(entity =>
         {
+            entity.ToTable("Customers");
+
+            // PK = Id (string)
             entity.HasKey(e => e.Id);
+
+            // Id mapeado a la columna CustomerID de la tabla
             entity.Property(e => e.Id)
-                  .HasColumnName("CustomerID"); // nombre real en la BBDD
+                  .HasColumnName("CustomerID")
+                  .HasMaxLength(5);
+
+            // CompanyName NOT NULL, por ejemplo
+            entity.Property(e => e.CompanyName)
+                  .IsRequired()
+                  .HasMaxLength(40);
+
+            // 👇 MUY IMPORTANTE: EF debe ignorar CustomerId
+            entity.Ignore(e => e.CustomerId);
         });
 
         base.OnModelCreating(modelBuilder);

@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+
+namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 
 [Route("api/customer")]
 [ApiController]
@@ -8,7 +10,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// Get all Customers
     /// </summary>
     /// <param></param>
-    /// <remarks>GET https://localhost:5256/api/customer/GetAllAsync</remarks>
+    /// <remarks>GET https://localhost:7087/api/customer/GetAllAsync</remarks>
     /// <returns>An IEnumerable<CustomerDTO></returns>
     [HttpGet("GetAllAsync")]
     public async Task<IActionResult> GetAllAsync()
@@ -20,7 +22,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             if (response.IsSuccess is false || response.Data is null)
                 return BadRequest(response);
 
-            return StatusCode((int)HttpStatusCode.OK, response);
+            return Ok(response);
         }
         catch (Exception e)
         {
@@ -32,7 +34,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// Get a Customer
     /// </summary>
     /// <param name="customerId"></param>
-    /// <remarks>GET https://localhost:5256/api/customer/{customerId}</remarks>
+    /// <remarks>GET https://localhost:7087/api/customer/GetAsync/{customerId}</remarks>
     /// <returns>A CustomerDTO</returns>
     [HttpGet("GetAsync/{customerId}")]
     public async Task<IActionResult> GetAsync(string customerId)
@@ -44,7 +46,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             if (response.IsSuccess is false || response.Data is null)
                 return BadRequest(response);
 
-            return StatusCode((int)HttpStatusCode.OK, response);
+            return Ok(response);
         }
         catch (Exception e)
         {
@@ -56,7 +58,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// Create a Customer
     /// </summary>
     /// <param name="customerDTO"></param>
-    /// <remarks>POST https://localhost:5256/api/customer/</remarks>
+    /// <remarks>POST https://localhost:7087/api/customer/InsertAsync</remarks>
     /// <returns></returns>
     [HttpPost("InsertAsync")]
     public async Task<IActionResult> PostAsync(CustomerDTO customerDTO)
@@ -70,7 +72,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             if (response.IsSuccess is false || response.Data is null)
                 return BadRequest(response);
 
-            return StatusCode((int)HttpStatusCode.Created, response);
+            return Ok(response);
         }
         catch (Exception e)
         { 
@@ -83,7 +85,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// </summary>
     /// <param name="customerDTO"></param>
     /// /// <param name="customerId"></param>
-    /// <remarks>PUT https://localhost:5256/api/customer/{customerId}</remarks>
+    /// <remarks>PUT https://localhost:7087/api/customer/UpdateAsync/{customerId}</remarks>
     /// <returns></returns>
     [HttpPut("UpdateAsync/{customerId}")]
     public async Task<IActionResult> UpdateAsync(CustomerDTO customerDTO, string customerId)
@@ -98,7 +100,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             if (response.IsSuccess is false || response.Data is false)
                 return BadRequest(response);
 
-            return StatusCode((int)HttpStatusCode.OK, response);
+            return Ok(response);
         }
         catch (Exception e)
         {
@@ -109,7 +111,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// <summary>
     /// Delete a Customer
     /// </summary>
-    /// <remarks>DELETE https://localhost:5256/api/customer/{customerId}</remarks>
+    /// <remarks>DELETE https://localhost:7087/api/customer/DeleteAsync/{customerId}</remarks>
     /// <param name="customerId"></param>
     /// <returns></returns>
     [HttpDelete("DeleteAsync/{customerId}")]
@@ -122,7 +124,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             if (response.IsSuccess is false || response.Data is false)
                 return BadRequest(response);
 
-            return StatusCode((int)HttpStatusCode.OK, response);
+            return Ok(response);
         }
         catch (Exception e)
         {
