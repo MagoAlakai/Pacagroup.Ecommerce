@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -11,8 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Aplicaion.DTO\Pacagroup.Ecommerce.Aplicacion.DTO.csproj" />
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Aplicaion.Interface\Pacagroup.Ecommerce.Aplicacion.Interface.csproj" />
     <ProjectReference Include="..\Pacagroup.Ecommerce.Aplicaion.Main\Pacagroup.Ecommerce.Aplicacion.Main.csproj" />
     <ProjectReference Include="..\Pacagroup.Ecommerce.Infraestructura.Repository\Pacagroup.Ecommerce.Infraestructura.Repository.csproj" />
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Transversal.Common\Pacagroup.Ecommerce.Transversal.Common.csproj" />
   </ItemGroup>
 
 </Project>
