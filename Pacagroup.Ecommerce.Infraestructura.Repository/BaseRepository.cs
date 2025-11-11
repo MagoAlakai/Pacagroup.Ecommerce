@@ -11,7 +11,7 @@ public class BaseRepository<T>(AppDbContext appDbContext) : IRepository<T> where
     }
     public async Task<T?> GetByIdAsync(string id)
     {
-        return await _entities.FindAsync(id);
+        return await _entities.FirstOrDefaultAsync(e => e.Id == id);
     }
     public async Task<T?> PostAsync(T entity)
     {
@@ -25,7 +25,7 @@ public class BaseRepository<T>(AppDbContext appDbContext) : IRepository<T> where
     public async Task<T?> UpdateAsync(T entity, string id)
     {
         bool entity_exist = await _entities.AnyAsync(x => x.Id == entity.Id);
-        if (entity_exist is true) return null;
+        if (entity_exist is false) return null;
 
         T updated_entity = _entities.Update(entity).Entity;
 
@@ -33,7 +33,7 @@ public class BaseRepository<T>(AppDbContext appDbContext) : IRepository<T> where
     }
     public async Task<bool> DeleteAsync(string id)
     {
-        T? entity_exist = await _entities.FindAsync(int.Parse(id));
+        T? entity_exist = await _entities.FirstOrDefaultAsync(e => e.Id == id);
         if (entity_exist is null) return false;
 
         _entities.Remove(entity_exist);

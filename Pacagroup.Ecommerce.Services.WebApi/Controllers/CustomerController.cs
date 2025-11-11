@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 
 [Route("api/customer")]
 [ApiController]
@@ -10,7 +8,7 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// Get all Customers
     /// </summary>
     /// <param></param>
-    /// <remarks>GET https://localhost:5256/api/customer/</remarks>
+    /// <remarks>GET https://localhost:5256/api/customer/GetAllAsync</remarks>
     /// <returns>An IEnumerable<CustomerDTO></returns>
     [HttpGet("GetAllAsync")]
     public async Task<IActionResult> GetAllAsync()
@@ -20,13 +18,13 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             Response<IEnumerable<CustomerDTO>> response = await customerApplication.GetAllAsync();
 
             if (response.IsSuccess is false || response.Data is null)
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return BadRequest(response);
 
-            return Ok(response);
+            return StatusCode((int)HttpStatusCode.OK, response);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
         }
     }
 
@@ -44,13 +42,13 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             Response<CustomerDTO> response = await customerApplication.GetAsync(customerId);
 
             if (response.IsSuccess is false || response.Data is null)
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return BadRequest(response);
 
-            return Ok(response);
+            return StatusCode((int)HttpStatusCode.OK, response);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
         }
     }
 
@@ -69,14 +67,14 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
         {
             Response<CustomerDTO> response = await customerApplication.InsertAsync(customerDTO);
 
-            if (response.IsSuccess is false || response.Data is null) 
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+            if (response.IsSuccess is false || response.Data is null)
+                return BadRequest(response);
 
-            return Ok(response);
+            return StatusCode((int)HttpStatusCode.Created, response);
         }
         catch (Exception e)
         { 
-            return BadRequest(e.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
         }
     }
 
@@ -98,13 +96,13 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             Response<bool> response = await customerApplication.UpdateAsync(customerDTO);
 
             if (response.IsSuccess is false || response.Data is false)
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return BadRequest(response);
 
-            return Ok(response);
+            return StatusCode((int)HttpStatusCode.OK, response);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
         }
     }
 
@@ -122,13 +120,13 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
             Response<bool> response = await customerApplication.DeleteAsync(customerId);
 
             if (response.IsSuccess is false || response.Data is false)
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return BadRequest(response);
 
-            return Ok(response);
+            return StatusCode((int)HttpStatusCode.OK, response);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
         }
     }
 }

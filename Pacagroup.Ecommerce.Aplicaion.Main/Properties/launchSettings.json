@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Pacagroup.Ecommerce.Aplicacion.Main": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58900;http://localhost:58901"
+    }
+  }
+}
