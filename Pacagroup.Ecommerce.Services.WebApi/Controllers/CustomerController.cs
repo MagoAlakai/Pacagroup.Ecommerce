@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 
 [Route("api/customer")]
 [ApiController]
-public class CustomerController (ICustomerApplication customerApplication) : ControllerBase
+[SwaggerTag("Operaciones de Customer")]
+public class CustomerController(ICustomerApplication customerApplication) : ControllerBase
 {
     /// <summary>
     /// Get all Customers
@@ -12,7 +11,12 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// <param></param>
     /// <remarks>GET https://localhost:7087/api/customer/GetAllAsync</remarks>
     /// <returns>An IEnumerable<CustomerDTO></returns>
+    
     [HttpGet("GetAllAsync")]
+    [SwaggerOperation(
+    Summary = "Get a Customer List",
+    Description = "Return ageneric object List with the response of the request")]
+    [SwaggerResponse(200, "Get All succesfull", typeof(Response<IEnumerable<CustomerDTO>>))]
     public async Task<IActionResult> GetAllAsync()
     {
         try
@@ -36,7 +40,12 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// <param name="customerId"></param>
     /// <remarks>GET https://localhost:7087/api/customer/GetAsync/{customerId}</remarks>
     /// <returns>A CustomerDTO</returns>
+
     [HttpGet("GetAsync/{customerId}")]
+    [SwaggerOperation(
+    Summary = "Get a Customer",
+    Description = "Return a generic object with the response of the request")]
+    [SwaggerResponse(200, "Get succesfull", typeof(Response<CustomerDTO>))]
     public async Task<IActionResult> GetAsync(string customerId)
     {
         try
@@ -60,7 +69,12 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// <param name="customerDTO"></param>
     /// <remarks>POST https://localhost:7087/api/customer/InsertAsync</remarks>
     /// <returns></returns>
+
     [HttpPost("InsertAsync")]
+    [SwaggerOperation(
+    Summary = "Insert a Customer",
+    Description = "Insert a Customer at the database")]
+    [SwaggerResponse(200, "Insert successful", typeof(Response<CustomerDTO>))]
     public async Task<IActionResult> PostAsync(CustomerDTO customerDTO)
     {
         if (customerDTO is null) return BadRequest();
@@ -81,13 +95,18 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     }
 
     /// <summary>
-    /// 
+    /// Update a Customer
     /// </summary>
     /// <param name="customerDTO"></param>
     /// /// <param name="customerId"></param>
     /// <remarks>PUT https://localhost:7087/api/customer/UpdateAsync/{customerId}</remarks>
     /// <returns></returns>
+
     [HttpPut("UpdateAsync/{customerId}")]
+    [SwaggerOperation(
+    Summary = "Update a Customer",
+    Description = "Update a Customer at the database")]
+    [SwaggerResponse(200, "Update successful", typeof(Response<bool>))]
     public async Task<IActionResult> UpdateAsync(CustomerDTO customerDTO, string customerId)
     {
         if (customerDTO is null || customerId is null || customerId.Equals(customerDTO.CustomerId) is false)
@@ -114,7 +133,12 @@ public class CustomerController (ICustomerApplication customerApplication) : Con
     /// <remarks>DELETE https://localhost:7087/api/customer/DeleteAsync/{customerId}</remarks>
     /// <param name="customerId"></param>
     /// <returns></returns>
+
     [HttpDelete("DeleteAsync/{customerId}")]
+    [SwaggerOperation(
+    Summary = "Delete a Customer",
+    Description = "Delete a Customer at the database")]
+    [SwaggerResponse(200, "Delete successful", typeof(Response<bool>))]
     public async Task<IActionResult> DeleteAsync(string customerId)
     {
         try

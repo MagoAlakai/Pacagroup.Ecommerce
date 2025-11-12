@@ -7,31 +7,27 @@ if (string.IsNullOrEmpty(cs))
 }
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
 
-// Capa de aplicación (incluye AutoMapper de Application.Main)
+// Add from ServiceCollectionExtension
+builder.Services.AddSwagger();
 builder.Services.AddApplication(builder.Configuration);
-// Capa de infraestructura (DbContext, UnitOfWork, repos, etc.)
 builder.Services.AddInfrastructure(builder.Configuration);
 
-WebApplication app;
-try
-{
-    app = builder.Build();
-}
-catch (Exception ex)
-{
-    Console.WriteLine("ERROR BUILDING APP:");
-    Console.WriteLine(ex);
-    throw;
-}
-
-//var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        c.RoutePrefix = "swagger";
+        c.DisplayRequestDuration();
+        c.EnableDeepLinking();
+        c.ShowExtensions();
+    });
 }
 
 app.UseHttpsRedirection();
