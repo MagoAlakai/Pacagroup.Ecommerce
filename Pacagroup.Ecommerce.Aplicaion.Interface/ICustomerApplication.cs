@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.Interface;
+﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Interface;
 
 public interface ICustomerApplication
 {

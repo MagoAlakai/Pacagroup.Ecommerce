@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Services.WebApi.Modules.Swagger;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Pacagroup.Ecommerce.Services.WebApi.Modules.Swagger;
 public static class SwaggerExtension
 {
     public static IServiceCollection AddSwagger(this IServiceCollection services)
@@ -29,6 +31,18 @@ public static class SwaggerExtension
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             if (File.Exists(xmlPath))
                 c.IncludeXmlComments(xmlPath);
+
+            OpenApiSecurityScheme securityScheme = new()
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Pega solo el token (Swagger añade 'Bearer ' automáticamente)"
+            };
+
+            c.AddSecurityDefinition("Bearer", securityScheme);
 
             c.EnableAnnotations();
         });

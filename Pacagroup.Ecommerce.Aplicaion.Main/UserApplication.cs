@@ -1,0 +1,90 @@
+﻿using Pacagroup.Ecommerce.Transversal.Common.Interfaces;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Main;
+
+public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService) : IUserApplication
+{
+    public async Task<Response<UserDTO?>> CreateUserAsync(SignUpDTO signUpDTO)
+    {
+        if (signUpDTO is null)
+        {
+            throw new ArgumentNullException(nameof(signUpDTO));
+        }
+
+        Response<UserDTO?> response = new();
+        User? existingUser = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
+
+        if (existingUser is not null)
+        {
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "This User already exists!";
+
+            return response;
+        }
+
+        User user = mapper.Map<User>(signUpDTO);
+        bool data = await unitOfWork.userRepository.CreateUserAsync(user, signUpDTO.Password);
+
+        if (data is false)
+        {
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "Error inserting User";
+
+            return response;
+        }
+
+        await unitOfWork.SaveChangesAsync();
+        UserDTO userDTOInserted = mapper.Map<UserDTO>(data);
+
+        response.IsSuccess = true;
+        response.Message = "User registered";
+        response.Data = userDTOInserted;
+
+        return response;
+    }
+
+    public async Task<Response<TokenDTO>> IsValidUserAsync(SignInDTO signInDTO)
+    {
+        if (signInDTO is null)
+        {
+            throw new ArgumentNullException(nameof(signInDTO));
+        }
+
+        Response<TokenDTO> response = new();
+        User? user = await unitOfWork.userRepository.GetByEmailAsync(signInDTO.Email);
+
+        if (user is null)
+        {
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "This Email is not valid";
+
+            return response;
+        }
+
+        bool userExist = await unitOfWork.userRepository.IsValidUserAsync(user, signInDTO.Password);
+
+        if (userExist is false)
+        {
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "This User is not valid";
+
+            return response;
+        }
+
+        string tokenDTO = jwtService.GenerateToken(user);
+        response.Data = new TokenDTO
+        {
+            AccessToken = tokenDTO,
+            TokenType = "Bearer",
+            ExpiresIn = 3600
+        };
+        response.IsSuccess = true;
+        response.Message = "Autenthication succesful";
+
+        return response;
+    }
+}

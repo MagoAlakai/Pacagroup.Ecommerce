@@ -1,4 +1,4 @@
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+﻿WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 var cs = builder.Configuration.GetConnectionString("NorthwindConnection");
 if (string.IsNullOrEmpty(cs))
@@ -10,6 +10,9 @@ builder.Services.AddControllers();
 
 // Add from ServiceCollectionExtension
 builder.Services.AddSwagger();
+builder.Services.AddCORS();
+builder.Services.AddTransversalCommon();
+builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -31,6 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowSwagger");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -15,6 +15,8 @@ public static class ServiceRegistration
 
         // 3) Repositorios concretos (si los inyectas directamente)
         services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+        services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+        services.AddScoped(typeof(IPasswordHasher<User>), typeof(PasswordHasher<User>));
 
         return services;
     }

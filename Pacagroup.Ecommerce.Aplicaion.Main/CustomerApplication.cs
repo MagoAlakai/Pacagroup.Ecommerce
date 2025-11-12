@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
 
 namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
@@ -11,6 +11,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
 
         if (customerList is null)
         {
+            response.Data = null;
             response.IsSuccess = false;
             response.Message = "There are no costumers";
 
@@ -28,11 +29,14 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
 
     public async Task<Response<CustomerDTO>> GetAsync(string customerId)
     {
+        if (customerId is null) throw new ArgumentNullException(nameof(customerId));
+
         Response<CustomerDTO> response = new();
         Customer? customer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
 
         if (customer is null)
         {
+            response.Data = null;
             response.IsSuccess = false;
             response.Message = "This customer doesn't exist";
 
@@ -48,16 +52,17 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
         return response;
     }
 
-    public async Task<Response<CustomerDTO>?> InsertAsync(CustomerDTO customerDTO)
+    public async Task<Response<CustomerDTO>> InsertAsync(CustomerDTO? customerDTO)
     {
-        if (customerDTO is null) return null;
+        if (customerDTO is null) throw new ArgumentNullException(nameof(customerDTO));
 
-        Response<CustomerDTO> response = new();
+        Response<CustomerDTO?> response = new();
         Customer customer = mapper.Map<Customer>(customerDTO);
         Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerDTO.CustomerId);
 
         if (existingCustomer is not null)
         {
+            response.Data = null;
             response.IsSuccess = false;
             response.Message = "This Customer already exists!";
 
@@ -68,6 +73,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
 
         if(data is null)
         {
+            response.Data = null;
             response.IsSuccess = false;
             response.Message = "Error inserting customer";
 
@@ -86,12 +92,15 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
 
     public async Task<Response<bool>> UpdateAsync(CustomerDTO customerDTO)
     {
+        if (customerDTO is null) throw new ArgumentNullException(nameof(customerDTO));
+
         Response<bool> response = new();
         Customer customer = mapper.Map<Customer>(customerDTO);
         Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
 
         if (existingCustomer is null) 
         {
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "This Customer doesn't exist!";
 
@@ -101,6 +110,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
         Customer? customerDTOUpdated = await unitOfWork.customerRepository.UpdateAsync(customer, customer.Id.ToString());
         if (customerDTOUpdated is null)
         {
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "This Customer couldn't be updated!";
 
@@ -118,11 +128,14 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
 
     public async Task<Response<bool>> DeleteAsync(string customerId)
     {
+        if (customerId is null) throw new ArgumentNullException(nameof(customerId));
+
         Response<bool> response = new();
         Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
 
         if (existingCustomer is null)
         {
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "This Customer doesn't exist!";
 

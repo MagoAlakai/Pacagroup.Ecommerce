@@ -1,4 +1,4 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.DTO;
+﻿namespace Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
 
 public sealed record CustomerDTO
 {

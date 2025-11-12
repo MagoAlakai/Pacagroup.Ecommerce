@@ -1,5 +1,9 @@
-﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
+using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
 
+namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+
+[Authorize]
 [Route("api/customer")]
 [ApiController]
 [SwaggerTag("Operaciones de Customer")]
