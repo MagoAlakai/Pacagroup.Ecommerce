@@ -34,6 +34,25 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+// 👇 Middleware: copia token de query/cookie → Authorization header
+app.Use(async (ctx, next) =>
+{
+    // 1) ?access_token=...
+    var qsToken = ctx.Request.Query["access_token"];
+    if (!string.IsNullOrWhiteSpace(qsToken))
+    {
+        ctx.Request.Headers["Authorization"] = $"Bearer {qsToken}";
+    }
+    else if (!ctx.Request.Headers.ContainsKey("Authorization")
+             && ctx.Request.Cookies.TryGetValue("auth", out var cookieToken)
+             && !string.IsNullOrWhiteSpace(cookieToken))
+    {
+        // 2) Cookie 'auth'
+        ctx.Request.Headers["Authorization"] = $"Bearer {cookieToken}";
+    }
+
+    await next();
+});
 app.UseCors("AllowSwagger");
 app.UseAuthentication();
 app.UseAuthorization();
