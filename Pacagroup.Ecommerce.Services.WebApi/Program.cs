@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddSwagger();
 builder.Services.AddCORS();
 builder.Services.AddTransversalCommon();
+builder.Services.AddLoggingTransversal(builder.Configuration);
+builder.Host.UseSerilog();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -33,6 +35,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 // 👇 Middleware: copia token de query/cookie → Authorization header
 app.Use(async (ctx, next) =>
@@ -58,4 +61,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+try
+{
+    Log.Information("Starting Pacagroup.Ecommerce API");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Pacagroup.Ecommerce API terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
+
+

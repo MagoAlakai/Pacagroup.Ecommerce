@@ -1,8 +1,6 @@
-﻿using Pacagroup.Ecommerce.Transversal.Common.Interfaces;
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
-namespace Pacagroup.Ecommerce.Aplicacion.Main;
-
-public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService) : IUserApplication
+public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger) : IUserApplication
 {
     public async Task<Response<UserDTO?>> CreateUserAsync(SignUpDTO signUpDTO)
     {
@@ -20,6 +18,8 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
             response.IsSuccess = false;
             response.Message = "This User already exists!";
 
+            logger.LogError("User registration failed for email: {Email}", response.Message);
+
             return response;
         }
 
@@ -31,6 +31,8 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
             response.Data = null;
             response.IsSuccess = false;
             response.Message = "Error inserting User";
+
+            logger.LogError("User registration failed for email: {Email}", response.Message);
 
             return response;
         }
@@ -61,6 +63,8 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
             response.IsSuccess = false;
             response.Message = "This Email is not valid";
 
+            logger.LogError("Authentication failed for email: {Email}", response.Message);
+
             return response;
         }
 
@@ -71,6 +75,8 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
             response.Data = null;
             response.IsSuccess = false;
             response.Message = "This User is not valid";
+
+            logger.LogError("Authentication failed for email: {Email}", response.Message);
 
             return response;
         }

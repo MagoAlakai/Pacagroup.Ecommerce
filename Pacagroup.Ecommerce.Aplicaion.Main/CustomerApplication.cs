@@ -2,7 +2,7 @@
 
 namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
-public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICustomerApplication
+public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UserApplication> logger) : ICustomerApplication
 {
     public async Task<Response<IEnumerable<CustomerDTO>>> GetAllAsync()
     {
@@ -14,6 +14,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.Data = null;
             response.IsSuccess = false;
             response.Message = "There are no costumers";
+
+            logger.LogWarning("No customers found in the database.");
 
             return response;
         }
@@ -39,6 +41,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.Data = null;
             response.IsSuccess = false;
             response.Message = "This customer doesn't exist";
+
+            logger.LogError("Customer with ID {CustomerId} not found.", response.Message);
 
             return response;
         }
@@ -66,6 +70,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.IsSuccess = false;
             response.Message = "This Customer already exists!";
 
+            logger.LogError("Attempted to insert a customer that already exists with ID {CustomerId}.", response.Message);
+
             return response;
         }
 
@@ -76,6 +82,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.Data = null;
             response.IsSuccess = false;
             response.Message = "Error inserting customer";
+
+            logger.LogError("An error occurred while inserting a new customer.", response.Message);
 
             return response;
         }
@@ -104,6 +112,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.IsSuccess = false;
             response.Message = "This Customer doesn't exist!";
 
+            logger.LogError("Attempted to update a customer that does not exist with ID {CustomerId}.", response.Message);
+
             return response;
         }
 
@@ -113,6 +123,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.Data = false;
             response.IsSuccess = false;
             response.Message = "This Customer couldn't be updated!";
+
+            logger.LogError("An error occurred while updating the customer with ID {CustomerId}.", response.Message);
 
             return response;
         }
@@ -138,6 +150,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork) : ICust
             response.Data = false;
             response.IsSuccess = false;
             response.Message = "This Customer doesn't exist!";
+
+            logger.LogError("Attempted to delete a customer that does not exist with ID {CustomerId}.", response.Message);
 
             return response;
         }

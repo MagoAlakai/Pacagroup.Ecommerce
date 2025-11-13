@@ -1,6 +1,4 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
-
-namespace Pacagroup.Ecommerce.Aplicacion.Interface;
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Interface;
 
 public interface IUserApplication
 {

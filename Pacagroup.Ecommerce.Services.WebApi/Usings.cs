@@ -11,7 +11,8 @@ global using Pacagroup.Ecommerce.Services.WebApi.Modules.CORS;
 global using Pacagroup.Ecommerce.Services.WebApi.Modules.Swagger;
 global using Pacagroup.Ecommerce.Transversal.Common;
 global using Pacagroup.Ecommerce.Transversal.Common.Extensions;
+global using Pacagroup.Ecommerce.Transversal.Logging.Extensions;
+global using Serilog;
 global using Swashbuckle.AspNetCore.Annotations;
 global using System.Net;
 global using System.Text;
-

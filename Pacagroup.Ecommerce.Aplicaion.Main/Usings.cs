@@ -7,5 +7,6 @@ global using Pacagroup.Ecommerce.Aplicacion.Interface;
 global using Pacagroup.Ecommerce.Domain.Entity;
 global using Pacagroup.Ecommerce.Infraestructura.Interface;
 global using Pacagroup.Ecommerce.Transversal.Common;
+global using Pacagroup.Ecommerce.Transversal.Common.Interfaces;
+global using Pacagroup.Ecommerce.Transversal.Logging.Interfaces;
 global using System.Reflection;
-
