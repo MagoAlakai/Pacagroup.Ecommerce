@@ -38,7 +38,8 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
         }
 
         await unitOfWork.SaveChangesAsync();
-        UserDTO userDTOInserted = mapper.Map<UserDTO>(data);
+        User? existingUsernow = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
+        UserDTO userDTOInserted = mapper.Map<UserDTO>(existingUsernow);
 
         response.IsSuccess = true;
         response.Message = "User registered";

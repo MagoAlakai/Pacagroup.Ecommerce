@@ -22,18 +22,25 @@ WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI(c =>
+//    {
+//        c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+//        c.RoutePrefix = "swagger";
+//        c.DisplayRequestDuration();
+//        c.EnableDeepLinking();
+//        c.ShowExtensions();
+//    });
+//}
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        c.RoutePrefix = "swagger";
-        c.DisplayRequestDuration();
-        c.EnableDeepLinking();
-        c.ShowExtensions();
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    c.RoutePrefix = "swagger";
+});
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();

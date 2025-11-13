@@ -9,28 +9,25 @@ services:
       - MSSQL_PID=Express
       - SA_PASSWORD=YourStrong!Passw0rd123
     ports:
-      - "1433:1433"
+      - "14330:1433"
     volumes:
       - sql-data:/var/opt/mssql
 
   api:
+    container_name: pacagroup-api
     build:
       context: .
       dockerfile: Pacagroup.Ecommerce.Services.WebApi/Dockerfile
-    container_name: pacagroup-api
     depends_on:
       - sqlserver
     environment:
       ASPNETCORE_ENVIRONMENT: "Docker"
-      ConnectionStrings__NorthwindConnection: "Server=sqlserver,1433;Database=Northwind;Encrypt=True;TrustServerCertificate=True"
+      ConnectionStrings__NorthwindConnection: "Server=sqlserver,1433;Database=Northwind;User Id=sa;Password=YourStrong!Passw0rd123;Encrypt=True;TrustServerCertificate=True"
       Jwt__Issuer: "Pacagroup.Ecommerce"
       Jwt__Audience: "Pacagroup.Ecommerce.Users"
       Jwt__Key: "MySecretKeyForJWTTokenGeneration123456789"
     ports:
       - "7087:8080"
-    # opcional: si quieres ver los logs en la consola
-    # logging:
-    #   driver: "json-file"
 
 volumes:
   sql-data:
