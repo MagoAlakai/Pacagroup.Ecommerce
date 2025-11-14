@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pacagroup.Ecommerce.Aplicaion.Interface\Pacagroup.Ecommerce.Aplicacion.Interface.csproj" />
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Aplicaion.Validator\Pacagroup.Ecommerce.Aplicacion.Validator.csproj" />
     <ProjectReference Include="..\Pacagroup.Ecommerce.Domain.Interface\Pacagroup.Ecommerce.Domain.Interface.csproj" />
     <ProjectReference Include="..\Pacagroup.Ecommerce.Infraestructura.Repository\Pacagroup.Ecommerce.Infraestructura.Repository.csproj" />
     <ProjectReference Include="..\Pacagroup.Ecommerce.Transversal.Logging\Pacagroup.Ecommerce.Transversal.Logging.csproj" />

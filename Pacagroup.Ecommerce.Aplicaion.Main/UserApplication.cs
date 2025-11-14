@@ -1,15 +1,24 @@
 ﻿namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
-public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger) : IUserApplication
+public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger, UserDTOValidator UserDTOValidator, SignUpDTOValidator SignUpDTOValidator, SignInDTOValidator SignInDTOValidator) : IUserApplication
 {
     public async Task<Response<UserDTO?>> CreateUserAsync(SignUpDTO signUpDTO)
     {
-        if (signUpDTO is null)
+        Response<UserDTO?> response = new();
+        ValidationResult? validation = await SignUpDTOValidator.ValidateAsync(signUpDTO);
+
+        if (validation.IsValid is false)
         {
-            throw new ArgumentNullException(nameof(signUpDTO));
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "Validation errors";
+            response.Errors = validation.Errors;
+
+            logger.LogError("Validation errors", response.Errors);
+
+            return response;
         }
 
-        Response<UserDTO?> response = new();
         User? existingUser = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
 
         if (existingUser is not null)

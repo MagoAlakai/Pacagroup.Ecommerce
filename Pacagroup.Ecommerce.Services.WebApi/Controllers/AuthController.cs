@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿using Pacagroup.Ecommerce.Aplicacion.Validator;
+
+namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 
 [Route("api/auth")]
 [ApiController]

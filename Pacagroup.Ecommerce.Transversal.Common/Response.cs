@@ -5,4 +5,5 @@ public class Response<T>
     public T? Data { get; set; }
     public bool IsSuccess { get; set; }
     public string? Message { get; set; }
+    public IEnumerable<FluentValidation.Results.ValidationFailure> Errors { get; set; }
 }

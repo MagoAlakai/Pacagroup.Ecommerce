@@ -1,9 +1,11 @@
 ﻿global using AutoMapper;
+global using FluentValidation.Results;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
 global using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
 global using Pacagroup.Ecommerce.Aplicacion.Interface;
+global using Pacagroup.Ecommerce.Aplicacion.Validator.Identity;
 global using Pacagroup.Ecommerce.Domain.Entity;
 global using Pacagroup.Ecommerce.Infraestructura.Interface;
 global using Pacagroup.Ecommerce.Transversal.Common;

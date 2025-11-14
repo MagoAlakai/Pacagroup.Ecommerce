@@ -13,6 +13,7 @@ builder.Services.AddSwagger();
 builder.Services.AddCORS();
 builder.Services.AddTransversalCommon();
 builder.Services.AddLoggingTransversal(builder.Configuration);
+builder.Services.AddValidator();
 builder.Host.UseSerilog();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
@@ -22,24 +23,14 @@ WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI(c =>
-//    {
-//        c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-//        c.RoutePrefix = "swagger";
-//        c.DisplayRequestDuration();
-//        c.EnableDeepLinking();
-//        c.ShowExtensions();
-//    });
-//}
-
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     c.RoutePrefix = "swagger";
+    c.DisplayRequestDuration();
+    c.EnableDeepLinking();
+    c.ShowExtensions();
 });
 
 app.UseSerilogRequestLogging();
