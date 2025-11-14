@@ -22,7 +22,7 @@ COPY . .
 
 # Publicamos
 RUN dotnet publish Pacagroup.Ecommerce.Services.WebApi/Pacagroup.Ecommerce.Services.WebApi.csproj \
-    -c Release -o /app/publish /p:UseAppHost=false
+    -c Debug -o /app/publish /p:UseAppHost=false
 
 
 # --- RUNTIME STAGE ---
