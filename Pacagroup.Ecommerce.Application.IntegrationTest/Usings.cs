@@ -1,0 +1,11 @@
+﻿global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
+global using Pacagroup.Ecommerce.Aplicacion.Interface;
+global using Pacagroup.Ecommerce.Aplicacion.Main.Extensions;
+global using Pacagroup.Ecommerce.Infraestructura.Repository.Extensions;
+global using Pacagroup.Ecommerce.Transversal.Common.Extensions;
+global using Pacagroup.Ecommerce.Transversal.Common;
+global using System.Text.Json;

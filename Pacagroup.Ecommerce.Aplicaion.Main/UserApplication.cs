@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.Main;
+﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
 public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger, UserDTOValidator UserDTOValidator, SignUpDTOValidator SignUpDTOValidator, SignInDTOValidator SignInDTOValidator) : IUserApplication
 {
@@ -59,12 +61,21 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
 
     public async Task<Response<TokenDTO>> IsValidUserAsync(SignInDTO signInDTO)
     {
-        if (signInDTO is null)
+        Response<TokenDTO> response = new();
+        ValidationResult? validation = await SignInDTOValidator.ValidateAsync(signInDTO);
+
+        if (validation.IsValid is false)
         {
-            throw new ArgumentNullException(nameof(signInDTO));
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "Validation errors";
+            response.Errors = validation.Errors;
+
+            logger.LogError("Validation errors", response.Errors);
+
+            return response;
         }
 
-        Response<TokenDTO> response = new();
         User? user = await unitOfWork.userRepository.GetByEmailAsync(signInDTO.Email);
 
         if (user is null)

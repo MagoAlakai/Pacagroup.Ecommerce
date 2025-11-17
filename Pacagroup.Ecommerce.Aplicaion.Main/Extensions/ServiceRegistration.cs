@@ -2,7 +2,7 @@
 
 public static class ServiceRegistration
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ICustomerApplication, CustomerApplication>();
         services.AddScoped<IUserApplication, UserApplication>();
