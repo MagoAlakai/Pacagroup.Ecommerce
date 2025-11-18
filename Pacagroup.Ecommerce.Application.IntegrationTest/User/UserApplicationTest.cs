@@ -22,7 +22,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
         IUserApplication userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
-        var context = Scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        AppDbContext context = Scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         SignUpDTO signUpDTO = new()
         {
@@ -35,7 +35,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
 
         // Limpieza: borrar usuaria para no afectar a otros tests
         var userEntity = context.Users.SingleOrDefault(u => u.Email == signUpDTO.Email);
-        if (userEntity != null)
+        if (userEntity is not null)
         {
             context.Users.Remove(userEntity);
             context.SaveChanges();
@@ -49,6 +49,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
         Assert.IsTrue(response.IsSuccess);
         Assert.IsNotNull(response.Data);
         Assert.AreEqual(response.Message, "User registered");
+        Assert.IsNull(response.Errors);
     }
 
     [TestMethod]
@@ -56,8 +57,8 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
     {
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
-        var context = Scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        IUserApplication userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
+        AppDbContext context = Scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         SignUpDTO signUpDTO = new()
 
@@ -81,7 +82,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
 
         // Limpieza: borrar usuaria para no afectar a otros tests
         var userEntity = context.Users.SingleOrDefault(u => u.Email == signUpDTO.Email);
-        if (userEntity != null)
+        if (userEntity is not null)
         {
             context.Users.Remove(userEntity);
             context.SaveChanges();
@@ -93,7 +94,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
     {
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
+        IUserApplication userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
         SignUpDTO signUpDTO = new()
         {
             FirstName = "TestFirstName",
@@ -119,7 +120,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
     {
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
+        IUserApplication userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
         SignInDTO signInDTO = new()
         {
             Email = string.Empty,
@@ -157,5 +158,6 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
         Assert.IsTrue(response.IsSuccess);
         Assert.IsNotNull(response.Data);
         Assert.AreEqual(response.Message, "Autenthication succesful");
+        Assert.IsNull(response.Errors);
     }
 }

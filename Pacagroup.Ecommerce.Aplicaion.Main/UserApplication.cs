@@ -1,6 +1,4 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
-
-namespace Pacagroup.Ecommerce.Aplicacion.Main;
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
 public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger, UserDTOValidator UserDTOValidator, SignUpDTOValidator SignUpDTOValidator, SignInDTOValidator SignInDTOValidator) : IUserApplication
 {

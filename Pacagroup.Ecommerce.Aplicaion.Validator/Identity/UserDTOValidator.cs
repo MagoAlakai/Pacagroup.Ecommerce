@@ -1,5 +1,4 @@
 ﻿namespace Pacagroup.Ecommerce.Aplicacion.Validator.Identity;
-
 public class UserDTOValidator : AbstractValidator<UserDTO>
 {
     public UserDTOValidator()

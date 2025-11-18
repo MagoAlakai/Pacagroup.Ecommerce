@@ -1,5 +1,6 @@
 ﻿using Pacagroup.Ecommerce.Transversal.Logging.Extensions;
 using Pacagroup.Ecommerce.Services.WebApi.Modules.Validator;
+using AutoMapper;
 
 namespace Pacagroup.Ecommerce.Application.Test;
 
@@ -9,6 +10,7 @@ public abstract class LogicUnitTestAbstraction
     protected IServiceCollection Services { get; private set; } = default!;
     protected IServiceProvider ServiceProvider { get; private set; } = default!;
     protected IServiceScopeFactory ScopeFactory { get; private set; } = default!;
+    protected IMapper Mapper { get; private set; } = default!;
     public TestContext? TestContext { get; set; }
 
     [TestInitialize]

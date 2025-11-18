@@ -1,4 +1,9 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
+﻿using AutoMapper;
+using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
+using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
+using Pacagroup.Ecommerce.Domain.Entity;
+using Pacagroup.Ecommerce.Infraestructura.Data;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Pacagroup.Ecommerce.Application.Test.Customer;
 
@@ -16,24 +21,7 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
     }
 
     [TestMethod]
-    public void GetAllUsersAsync_WithNoCustomer_InfoResponse()
-    {
-        //Arrange
-        using IServiceScope Scope = ScopeFactory.CreateScope();
-        ICustomerApplication customerApplication = Scope.ServiceProvider.GetRequiredService<ICustomerApplication>();
-
-        //Act
-        Response<IEnumerable<CustomerDTO>> response = customerApplication.GetAllAsync().GetAwaiter().GetResult();
-        ConsoleWriteObject("Response", response);
-
-        //Assert
-        Assert.IsFalse(response.IsSuccess);
-        Assert.IsNull(response.Data);
-        Assert.AreEqual(response.Message, "There are no costumers");
-    }
-
-    [TestMethod]
-    public void GetAllUsersAsync_WithCustomers_OkResponse()
+    public void GetAllCustomersAsync_WithCustomers_OkResponse()
     {
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
@@ -47,101 +35,173 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
         Assert.IsTrue(response.IsSuccess);
         Assert.IsNotNull(response.Data);
         Assert.AreEqual(response.Message, "Get All succesfull");
+        Assert.IsNull(response.Errors);
     }
 
     [TestMethod]
-    public void CreateUserAsync_UserAlreadyExist_ErrorResponse()
+    public void GetCustomerAsync_CustomerDoesNotExist_ErrorResponse()
     {
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
-        SignUpDTO signUpDTO = new()
-        {
-            FirstName = "Mago",
-            LastName = "Txukember",
-            Email = "mago@gmail.com",
-            Password = "Iloveswing",
-            UserName = "magoalakai"
-        };
+        ICustomerApplication customerApplication = Scope.ServiceProvider.GetRequiredService<ICustomerApplication>();
+        string customerId = "nonexistent-id";
 
         //Act
-        Response<UserDTO?> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
+        Response<CustomerDTO>? response = customerApplication.GetAsync(customerId).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response);
 
         //Assert
         Assert.IsFalse(response.IsSuccess);
         Assert.IsNull(response.Data);
-        Assert.AreEqual(response.Message, "This User already exists!");
+        Assert.AreEqual(response.Message, "This customer doesn't exist");
     }
 
     [TestMethod]
-    public void CreateUserAsync_WithNoEmail_ErrorResponse()
+    public void GetCustomerAsync_WithCustomerId_OkResponse()
     {
         //Arrange
         using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
-        SignUpDTO signUpDTO = new()
-        {
-            FirstName = "TestFirstName",
-            LastName = "TestLastName",
-            Email = string.Empty,
-            Password = "TestPassword",
-            UserName = "TestUserName"
-        };
+        ICustomerApplication customerApplication = Scope.ServiceProvider.GetRequiredService<ICustomerApplication>();
+        string customerId = "ALFKI";
 
         //Act
-        Response<UserDTO?> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
-        ConsoleWriteObject("Response", response);
-
-        //Assert
-        Assert.IsFalse(response.IsSuccess);
-        Assert.IsNull(response.Data);
-        Assert.AreEqual(response.Message, "Validation errors");
-        Assert.IsTrue(response.Errors.Count() > 0);
-    }
-
-    [TestMethod]
-    public void IsValidUserAsync_WithNoEmail_ErrorResponse()
-    {
-        //Arrange
-        using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
-        SignInDTO signInDTO = new()
-        {
-            Email = string.Empty,
-            Password = "TestPassword",
-        };
-
-        //Act
-        Response<TokenDTO> response = userApplication.IsValidUserAsync(signInDTO).GetAwaiter().GetResult();
-        ConsoleWriteObject("Response", response);
-
-        //Assert
-        Assert.IsFalse(response.IsSuccess);
-        Assert.IsNull(response.Data);
-        Assert.AreEqual(response.Message, "Validation errors");
-        Assert.IsTrue(response.Errors.Count() > 0);
-    }
-
-    [TestMethod]
-    public void IsValidUserAsync_WithAllParameters_OkResponse()
-    {
-        //Arrange
-        using IServiceScope Scope = ScopeFactory.CreateScope();
-        var userApplication = Scope.ServiceProvider.GetRequiredService<IUserApplication>();
-        SignInDTO signInDTO = new()
-        {
-            Email = "mago@gmail.com",
-            Password = "Iloveswing"
-        };
-
-        //Act
-        Response<TokenDTO> response = userApplication.IsValidUserAsync(signInDTO).GetAwaiter().GetResult();
+        Response<CustomerDTO>? response = customerApplication.GetAsync(customerId).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response);
 
         //Assert
         Assert.IsTrue(response.IsSuccess);
         Assert.IsNotNull(response.Data);
-        Assert.AreEqual(response.Message, "Autenthication succesful");
+        Assert.AreEqual(response.Message, "Get succesfull");
+        Assert.IsNull(response.Errors);
+    }
+
+    [TestMethod]
+    public void CreateCustomerAsync_WithNoCustomerId_ErrorResponse()
+    {
+        //Arrange
+        using IServiceScope Scope = ScopeFactory.CreateScope();
+        ICustomerApplication customerApplication = Scope.ServiceProvider.GetRequiredService<ICustomerApplication>();
+        CustomerDTO customerDTO = new()
+        {
+            CustomerId = string.Empty,
+            CompanyName = "TestCompanyName",
+            ContactName = "TestContactName",
+            ContactTitle = "TestContactTitle",
+            Address = "TestAddress",
+            City = "TestCity",
+            Region = "TestRegion",
+            PostalCode = "TestPostalCode",
+            Country = "TestCountry",
+            Phone = "TestPhone",
+            Fax = "TestFax"
+        };
+
+        //Act
+        Response<CustomerDTO>? response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        ConsoleWriteObject("Response", response);
+
+        //Assert
+        Assert.IsFalse(response.IsSuccess);
+        Assert.IsNull(response.Data);
+        Assert.AreEqual(response.Message, "Validation errors");
+        Assert.IsTrue(response.Errors.Count() > 0);
+    }
+
+    [TestMethod]
+    public void CreateCustomerAsync_WithCustomerDTO_OkResponse()
+    {
+        //Arrange
+        const string testId = "TEST1";
+        using IServiceScope cleanupScope = ScopeFactory.CreateScope();
+        ICustomerApplication customerApplication = cleanupScope.ServiceProvider.GetRequiredService<ICustomerApplication>();
+        AppDbContext context = cleanupScope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        CustomerDTO customerDTO = new()
+        {
+        CustomerId = "TEST1",
+        CompanyName = "TestCompanyName",
+        ContactName = "TestContactName",
+        ContactTitle = "TestContactTitle",
+        Address = "TestAddress",
+        City = "TestCity",
+        Region = "TestRegion",
+        PostalCode = "TestPC",
+        Country = "TestCountry",
+        Phone = "TestPhone",
+        Fax = "TestFax"
+        };
+
+        var existing = context.Customers.SingleOrDefault(c => c.Id == testId);
+
+        if (existing is not null)
+        {
+            context.Customers.Remove(existing);
+            context.SaveChangesAsync();
+        }
+
+        //Act
+        Response<CustomerDTO>? response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        ConsoleWriteObject("Response", response);
+
+        //Assert
+        Assert.IsTrue(response.IsSuccess);
+        Assert.IsNotNull(response.Data);
+        Assert.AreEqual(response.Message, "Insert successful");
+        Assert.IsNull(response.Errors);
+
+        // Limpieza: borrar Customer para no afectar a otros tests
+        Domain.Entity.Customer created = context.Customers.SingleOrDefault(c => c.Id == testId);
+
+        if (created is not null)
+        {
+            context.Customers.Remove(created);
+            context.SaveChangesAsync();
+        }
+    }
+
+    [TestMethod]
+    public void CreateCustomerAsync_WithCustomerAlreadyCreated_ErrorResponse()
+    {
+        //Arrange
+        const string testId = "TEST1";
+        using IServiceScope Scope = ScopeFactory.CreateScope();
+        ICustomerApplication customerApplication = Scope.ServiceProvider.GetRequiredService<ICustomerApplication>();
+        AppDbContext context = Scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        CustomerDTO customerDTO = new()
+        {
+            CustomerId = "TEST1",
+            CompanyName = "TestCompanyName",
+            ContactName = "TestContactName",
+            ContactTitle = "TestContactTitle",
+            Address = "TestAddress",
+            City = "TestCity",
+            Region = "TestRegion",
+            PostalCode = "TestPC",
+            Country = "TestCountry",
+            Phone = "TestPhone",
+            Fax = "TestFax"
+        };
+
+        Response<CustomerDTO>? response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+
+        //Act
+        Response<CustomerDTO>? responseInserted = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        ConsoleWriteObject("Response", responseInserted);
+
+        //Assert
+        Assert.IsFalse(responseInserted.IsSuccess);
+        Assert.IsNull(responseInserted.Data);
+        Assert.AreEqual(responseInserted.Message, "This Customer already exists!");
+        Assert.IsNull(responseInserted.Errors);
+
+        // Limpieza: borrar Customer para no afectar a otros tests
+        Domain.Entity.Customer created = context.Customers.SingleOrDefault(c => c.Id == testId);
+
+        if (created is not null)
+        {
+            context.Customers.Remove(created);
+            context.SaveChangesAsync();
+        }
     }
 }

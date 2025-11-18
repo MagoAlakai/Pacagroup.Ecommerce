@@ -1,8 +1,11 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
+﻿using FluentValidation;
+using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
+using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
+using Pacagroup.Ecommerce.Aplicacion.Validator.Customer;
 
 namespace Pacagroup.Ecommerce.Aplicacion.Main;
 
-public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UserApplication> logger) : ICustomerApplication
+public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UserApplication> logger, CustomerDTOValidator customerDTOValidator) : ICustomerApplication
 {
     public async Task<Response<IEnumerable<CustomerDTO>>> GetAllAsync()
     {
@@ -56,11 +59,23 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
         return response;
     }
 
-    public async Task<Response<CustomerDTO>> InsertAsync(CustomerDTO? customerDTO)
+    public async Task<Response<CustomerDTO>> InsertAsync(CustomerDTO customerDTO)
     {
-        if (customerDTO is null) throw new ArgumentNullException(nameof(customerDTO));
+        Response<CustomerDTO>? response = new();
 
-        Response<CustomerDTO?> response = new();
+        ValidationResult? validation = await customerDTOValidator.ValidateAsync(customerDTO);
+
+        if (validation.IsValid is false)
+        {
+            response.Data = null;
+            response.IsSuccess = false;
+            response.Message = "Validation errors";
+            response.Errors = validation.Errors;
+
+            logger.LogError("Validation errors", response.Errors);
+
+            return response;
+        }
         Customer customer = mapper.Map<Customer>(customerDTO);
         Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerDTO.CustomerId);
 
