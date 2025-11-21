@@ -1,11 +1,12 @@
-﻿namespace Pacagroup.Ecommerce.Transversal.Logging.Extensions;
+﻿using Pacagroup.Ecommerce.Transversal.Logging;
 
 public static class ServiceRegistration
 {
     public static IServiceCollection AddLoggingTransversal(this IServiceCollection services, IConfiguration configuration)
     {
         var env = configuration["ASPNETCORE_ENVIRONMENT"]
-                  ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                  ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                  ?? "Production";
 
         var loggerConfig = new LoggerConfiguration()
             .MinimumLevel.Information()
@@ -20,8 +21,8 @@ public static class ServiceRegistration
                 retainedFileCountLimit: 30,
                 outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}");
 
-        // ❌ No intentes escribir logs en SQL cuando corras en Docker
-        if (!string.Equals(env, "Docker", StringComparison.OrdinalIgnoreCase))
+        // ✅ Solo log a SQL cuando estemos en Development (tu máquina)
+        if (string.Equals(env, "Development", StringComparison.OrdinalIgnoreCase))
         {
             var conn = configuration.GetConnectionString("NorthwindConnection");
 
