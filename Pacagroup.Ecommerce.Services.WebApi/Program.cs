@@ -1,4 +1,6 @@
-﻿WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+﻿using Pacagroup.Ecommerce.Services.WebApi.Modules.Midddlewares;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 var cs = builder.Configuration.GetConnectionString("NorthwindConnection");
 if (string.IsNullOrEmpty(cs))
@@ -18,6 +20,7 @@ builder.Host.UseSerilog();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddMiddleware();
 
 WebApplication app = builder.Build();
 
@@ -58,6 +61,7 @@ app.UseCors("AllowSwagger");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.AddMiddlewareServices();
 
 try
 {

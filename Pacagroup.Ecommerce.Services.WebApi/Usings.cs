@@ -1,4 +1,5 @@
-﻿global using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿global using Azure.Core.Serialization;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi;
@@ -9,6 +10,7 @@ global using Pacagroup.Ecommerce.Aplicacion.Validator.Identity;
 global using Pacagroup.Ecommerce.Persistence.Extensions;
 global using Pacagroup.Ecommerce.Services.WebApi.Modules.Authentication;
 global using Pacagroup.Ecommerce.Services.WebApi.Modules.CORS;
+global using Pacagroup.Ecommerce.Services.WebApi.Modules.GlobalExceptions;
 global using Pacagroup.Ecommerce.Services.WebApi.Modules.Swagger;
 global using Pacagroup.Ecommerce.Services.WebApi.Modules.Validator;
 global using Pacagroup.Ecommerce.Transversal.Common;
@@ -17,3 +19,4 @@ global using Serilog;
 global using Swashbuckle.AspNetCore.Annotations;
 global using System.Net;
 global using System.Text;
+
