@@ -15,11 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{B40656
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prueba", "Prueba", "{F46C94A9-3506-433D-B1C5-79727D78AC98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Domain.Entity", "Pacagroup.Ecommerce.Domain.Entity\Pacagroup.Ecommerce.Domain.Entity.csproj", "{E8C942BE-0DE6-424C-8AD4-4700C0090DFC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Domain.Core", "Pacagroup.Ecommerce.Domain.Core\Pacagroup.Ecommerce.Domain.Core.csproj", "{82DE1156-0AA5-4D9D-9374-7CC412109C07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Domain.Interface", "Pacagroup.Ecommerce.Domain.Interface\Pacagroup.Ecommerce.Domain.Interface.csproj", "{628ACF39-B22A-4E76-A94A-650CCA9EAFB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Domain", "Pacagroup.Ecommerce.Domain.Entity\Pacagroup.Ecommerce.Domain.csproj", "{E8C942BE-0DE6-424C-8AD4-4700C0090DFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.DTO", "Pacagroup.Ecommerce.Aplicaion.DTO\Pacagroup.Ecommerce.Aplicacion.DTO.csproj", "{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C}"
 EndProject
@@ -28,12 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.Main", "Pacagroup.Ecommerce.Aplicaion.Main\Pacagroup.Ecommerce.Aplicacion.Main.csproj", "{8E2A6659-2514-4360-A3D8-AB213DCC57BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Aplicacion.Validator", "Pacagroup.Ecommerce.Aplicaion.Validator\Pacagroup.Ecommerce.Aplicacion.Validator.csproj", "{9E435E7C-6A47-444B-A335-44A129F00CC6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Infraestructura.Data", "Pacagroup.Ecommerce.Infraestructura.Data\Pacagroup.Ecommerce.Infraestructura.Data.csproj", "{AAECF4F1-D690-4F60-B683-6747742F9473}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Infraestructura.Interface", "Pacagroup.Ecommerce.Infraestructura.Interface\Pacagroup.Ecommerce.Infraestructura.Interface.csproj", "{65681F45-A72A-43C4-9DD0-8E1C6979C2F4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Infraestructura.Repository", "Pacagroup.Ecommerce.Infraestructura.Repository\Pacagroup.Ecommerce.Infraestructura.Repository.csproj", "{6B5AB5E3-391A-4780-B645-5D9B04520333}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Transversal.Logging", "Pacagroup.Ecommerce.Transversal.Logging\Pacagroup.Ecommerce.Transversal.Logging.csproj", "{FEB5AEF5-D579-473E-B4BF-F746E2774DE7}"
 EndProject
@@ -50,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacagroup.Ecommerce.Persistence", "Pacagroup.Ecommerce.Persistence\Pacagroup.Ecommerce.Persistence.csproj", "{B0B2921D-7451-4B92-A30A-AFFD9A14B6B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,14 +52,6 @@ Global
 		{E8C942BE-0DE6-424C-8AD4-4700C0090DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8C942BE-0DE6-424C-8AD4-4700C0090DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8C942BE-0DE6-424C-8AD4-4700C0090DFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82DE1156-0AA5-4D9D-9374-7CC412109C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82DE1156-0AA5-4D9D-9374-7CC412109C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82DE1156-0AA5-4D9D-9374-7CC412109C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82DE1156-0AA5-4D9D-9374-7CC412109C07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{628ACF39-B22A-4E76-A94A-650CCA9EAFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{628ACF39-B22A-4E76-A94A-650CCA9EAFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{628ACF39-B22A-4E76-A94A-650CCA9EAFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{628ACF39-B22A-4E76-A94A-650CCA9EAFB9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,18 +68,6 @@ Global
 		{9E435E7C-6A47-444B-A335-44A129F00CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E435E7C-6A47-444B-A335-44A129F00CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E435E7C-6A47-444B-A335-44A129F00CC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AAECF4F1-D690-4F60-B683-6747742F9473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAECF4F1-D690-4F60-B683-6747742F9473}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAECF4F1-D690-4F60-B683-6747742F9473}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAECF4F1-D690-4F60-B683-6747742F9473}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65681F45-A72A-43C4-9DD0-8E1C6979C2F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65681F45-A72A-43C4-9DD0-8E1C6979C2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65681F45-A72A-43C4-9DD0-8E1C6979C2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65681F45-A72A-43C4-9DD0-8E1C6979C2F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B5AB5E3-391A-4780-B645-5D9B04520333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B5AB5E3-391A-4780-B645-5D9B04520333}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B5AB5E3-391A-4780-B645-5D9B04520333}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B5AB5E3-391A-4780-B645-5D9B04520333}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEB5AEF5-D579-473E-B4BF-F746E2774DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FEB5AEF5-D579-473E-B4BF-F746E2774DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEB5AEF5-D579-473E-B4BF-F746E2774DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -116,26 +88,26 @@ Global
 		{780F81A2-8C8F-416C-9BF5-0D13F53572C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{780F81A2-8C8F-416C-9BF5-0D13F53572C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{780F81A2-8C8F-416C-9BF5-0D13F53572C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0B2921D-7451-4B92-A30A-AFFD9A14B6B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0B2921D-7451-4B92-A30A-AFFD9A14B6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0B2921D-7451-4B92-A30A-AFFD9A14B6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0B2921D-7451-4B92-A30A-AFFD9A14B6B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E8C942BE-0DE6-424C-8AD4-4700C0090DFC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{82DE1156-0AA5-4D9D-9374-7CC412109C07} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{628ACF39-B22A-4E76-A94A-650CCA9EAFB9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{7B390A96-4BDE-4E8D-9C3F-AAA6539FBA0C} = {309CE41D-B8A8-435A-9CF6-4FB84108D34B}
 		{CA35162C-C11E-4E24-BCE9-9EA3EA4C6915} = {309CE41D-B8A8-435A-9CF6-4FB84108D34B}
 		{8E2A6659-2514-4360-A3D8-AB213DCC57BD} = {309CE41D-B8A8-435A-9CF6-4FB84108D34B}
 		{9E435E7C-6A47-444B-A335-44A129F00CC6} = {309CE41D-B8A8-435A-9CF6-4FB84108D34B}
-		{AAECF4F1-D690-4F60-B683-6747742F9473} = {3659EB41-B48C-4E0E-82E2-E2681CA73160}
-		{65681F45-A72A-43C4-9DD0-8E1C6979C2F4} = {3659EB41-B48C-4E0E-82E2-E2681CA73160}
-		{6B5AB5E3-391A-4780-B645-5D9B04520333} = {3659EB41-B48C-4E0E-82E2-E2681CA73160}
 		{FEB5AEF5-D579-473E-B4BF-F746E2774DE7} = {20CA9A29-3DB2-44B4-98D6-AE0B82D6C8ED}
 		{26FAB4E6-1354-4721-B1F7-E09FCF87CC7C} = {20CA9A29-3DB2-44B4-98D6-AE0B82D6C8ED}
 		{4739F776-240C-453A-A272-CD9E0C6E06F0} = {20CA9A29-3DB2-44B4-98D6-AE0B82D6C8ED}
 		{267DB7B8-C0AE-4622-971C-E528321B6B35} = {B4065656-53EE-47F4-A792-76DC1FEB3572}
 		{780F81A2-8C8F-416C-9BF5-0D13F53572C9} = {F46C94A9-3506-433D-B1C5-79727D78AC98}
+		{B0B2921D-7451-4B92-A30A-AFFD9A14B6B6} = {3659EB41-B48C-4E0E-82E2-E2681CA73160}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E1B06EE2-9414-4C41-8292-93C4C4188B22}

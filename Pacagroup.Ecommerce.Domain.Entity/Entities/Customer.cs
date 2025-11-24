@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Domain.Entity;
+﻿using Pacagroup.Ecommerce.Domain.Common;
+
+namespace Pacagroup.Ecommerce.Domain.Entities;
 
 public class Customer : BaseEntity
 {

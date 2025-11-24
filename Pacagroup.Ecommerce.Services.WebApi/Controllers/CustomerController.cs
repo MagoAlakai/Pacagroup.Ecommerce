@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
+using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
 
 namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 

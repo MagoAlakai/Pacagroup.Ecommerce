@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Pacagroup.Ecommerce.Domain.Entity\Pacagroup.Ecommerce.Domain.Entity.csproj" />
     <ProjectReference Include="..\Pacagroup.Ecommerce.Domain.Interface\Pacagroup.Ecommerce.Domain.Interface.csproj" />
-    <ProjectReference Include="..\Pacagroup.Ecommerce.Infraestructura.Interface\Pacagroup.Ecommerce.Infraestructura.Interface.csproj" />
   </ItemGroup>
 
 </Project>

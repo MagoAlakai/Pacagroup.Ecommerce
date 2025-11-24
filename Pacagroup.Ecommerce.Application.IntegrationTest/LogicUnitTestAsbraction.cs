@@ -1,8 +1,4 @@
-﻿using Pacagroup.Ecommerce.Transversal.Logging.Extensions;
-using Pacagroup.Ecommerce.Services.WebApi.Modules.Validator;
-using AutoMapper;
-
-namespace Pacagroup.Ecommerce.Application.Test;
+﻿namespace Pacagroup.Ecommerce.Application.Test;
 
 public abstract class LogicUnitTestAbstraction
 {

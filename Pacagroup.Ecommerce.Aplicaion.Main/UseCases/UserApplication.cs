@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.Main;
+﻿using Pacagroup.Ecommerce.Domain.Entities;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases;
 
 public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger, UserDTOValidator UserDTOValidator, SignUpDTOValidator SignUpDTOValidator, SignInDTOValidator SignInDTOValidator) : IUserApplication
 {

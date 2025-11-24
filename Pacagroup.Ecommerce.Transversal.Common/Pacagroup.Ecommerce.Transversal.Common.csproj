@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pacagroup.Ecommerce.Domain.Entity\Pacagroup.Ecommerce.Domain.Entity.csproj" />
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Domain.Entity\Pacagroup.Ecommerce.Domain.csproj" />
   </ItemGroup>
 
 </Project>

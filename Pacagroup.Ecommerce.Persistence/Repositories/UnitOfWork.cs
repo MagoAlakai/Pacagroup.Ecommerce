@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Infraestructura.Repository;
+﻿using Pacagroup.Ecommerce.Domain.Entities;
+
+namespace Pacagroup.Ecommerce.Persistence.Repositories;
 
 public class UnitOfWork(AppDbContext appDbContext, IPasswordHasher<User> passwordHasher) : IUnitOfWork
 {

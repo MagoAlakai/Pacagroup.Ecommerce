@@ -1,10 +1,13 @@
-﻿namespace Pacagroup.Ecommerce.Infraestructura.Data;
+﻿using Pacagroup.Ecommerce.Domain.Entities;
 
-public class AppDbContext : DbContext
+namespace Pacagroup.Ecommerce.Persistence.DbContext;
+
+public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
     public DbSet<Customer> Customers { get; set; } = default!;
     public DbSet<User> Users { get; set; } = default!;
+    public DbSet<Discount> Discounts { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,13 +23,27 @@ public class AppDbContext : DbContext
                   .HasColumnName("CustomerID")
                   .HasMaxLength(5);
 
-            // CompanyName NOT NULL, por ejemplo
             entity.Property(e => e.CompanyName)
                   .IsRequired()
                   .HasMaxLength(40);
 
             // 👇 MUY IMPORTANTE: EF debe ignorar CustomerId
             entity.Ignore(e => e.CustomerId);
+        });
+
+        modelBuilder.Entity<Discount>(entity =>
+        {
+            entity.ToTable("Discounts");
+
+            entity.Property(e => e.CreatedDate)
+                  .IsRequired();
+
+            entity.Property(e => e.Porcentage)
+                  .IsRequired();
+
+            entity.Property(e => e.Status)
+                  .IsRequired();
+
         });
 
         base.OnModelCreating(modelBuilder);

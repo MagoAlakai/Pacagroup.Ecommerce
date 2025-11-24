@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Infraestructura.Repository.Extensions;
+﻿using Pacagroup.Ecommerce.Domain.Entities;
+
+namespace Pacagroup.Ecommerce.Persistence.Extensions;
 
 public static class ServiceRegistration
 {
@@ -8,7 +10,7 @@ public static class ServiceRegistration
         string? connectionString = configuration.GetConnectionString("NorthwindConnection");
 
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(connectionString));
+                    options.UseSqlServer(connectionString));
 
         // 2) Unit of Work
         services.AddScoped<IUnitOfWork, UnitOfWork>();

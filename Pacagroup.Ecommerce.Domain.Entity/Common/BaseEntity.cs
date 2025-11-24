@@ -1,4 +1,4 @@
-﻿namespace Pacagroup.Ecommerce.Domain.Entity;
+﻿namespace Pacagroup.Ecommerce.Domain.Common;
 
 public abstract class BaseEntity
 {

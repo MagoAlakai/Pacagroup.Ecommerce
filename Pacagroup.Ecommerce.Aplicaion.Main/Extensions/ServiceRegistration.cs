@@ -1,4 +1,7 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.Extensions;
+﻿using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
+using Pacagroup.Ecommerce.Aplicacion.Main.UseCases;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Main.Extensions;
 
 public static class ServiceRegistration
 {

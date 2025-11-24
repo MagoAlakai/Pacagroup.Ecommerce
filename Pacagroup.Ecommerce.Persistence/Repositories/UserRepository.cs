@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Infraestructura.Repository;
+﻿using Pacagroup.Ecommerce.Domain.Entities;
+
+namespace Pacagroup.Ecommerce.Persistence.Repositories;
 
 public class UserRepository(AppDbContext appDbContext, IPasswordHasher<User> passwordHasher) : IUserRepository
 {

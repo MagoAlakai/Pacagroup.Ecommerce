@@ -1,7 +1,4 @@
-﻿using Pacagroup.Ecommerce.Infraestructura.Data;
-using System.Net.Sockets;
-
-namespace Pacagroup.Ecommerce.Application.Test.User;
+﻿namespace Pacagroup.Ecommerce.Application.Test.User;
 
 [TestClass]
 public sealed class UserApplicationTest : LogicUnitTestAbstraction

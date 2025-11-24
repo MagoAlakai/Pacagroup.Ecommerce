@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
-using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
-using Pacagroup.Ecommerce.Domain.Entity;
-using Pacagroup.Ecommerce.Infraestructura.Data;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
+﻿using Pacagroup.Ecommerce.Persistence.DbContext;
 
 namespace Pacagroup.Ecommerce.Application.Test.Customer;
 
@@ -150,7 +145,7 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
         Assert.IsNull(response.Errors);
 
         // Limpieza: borrar Customer para no afectar a otros tests
-        Domain.Entity.Customer created = context.Customers.SingleOrDefault(c => c.Id == testId);
+        Domain.Entities.Customer created = context.Customers.SingleOrDefault(c => c.Id == testId);
 
         if (created is not null)
         {
@@ -196,7 +191,7 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
         Assert.IsNull(responseInserted.Errors);
 
         // Limpieza: borrar Customer para no afectar a otros tests
-        Domain.Entity.Customer created = context.Customers.SingleOrDefault(c => c.Id == testId);
+        Domain.Entities.Customer created = context.Customers.SingleOrDefault(c => c.Id == testId);
 
         if (created is not null)
         {

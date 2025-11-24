@@ -1,4 +1,5 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.Validator;
+﻿using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
+using Pacagroup.Ecommerce.Aplicacion.Validator;
 
 namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 

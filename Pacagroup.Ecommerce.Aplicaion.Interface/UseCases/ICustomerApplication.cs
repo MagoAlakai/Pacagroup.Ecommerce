@@ -1,6 +1,4 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
-
-namespace Pacagroup.Ecommerce.Aplicacion.Interface;
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
 
 public interface ICustomerApplication
 {

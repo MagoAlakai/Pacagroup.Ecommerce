@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Infraestructura.Repository;
+﻿using Pacagroup.Ecommerce.Domain.Common;
+
+namespace Pacagroup.Ecommerce.Persistence.Repositories;
 
 public class BaseRepository<T>(AppDbContext appDbContext) : IRepository<T> where T : BaseEntity
 {

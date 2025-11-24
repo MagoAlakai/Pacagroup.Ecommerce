@@ -1,4 +1,6 @@
-﻿namespace Pacagroup.Ecommerce.Infraestructura.Interface;
+﻿using Pacagroup.Ecommerce.Domain.Entities;
+
+namespace Pacagroup.Ecommerce.Aplicacion.Interface.Persistence;
 
 public interface IUserRepository
 {

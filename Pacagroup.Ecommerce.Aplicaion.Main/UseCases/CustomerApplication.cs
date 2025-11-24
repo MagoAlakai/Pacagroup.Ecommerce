@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
 using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
 using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
+using Pacagroup.Ecommerce.Aplicacion.Interface.Persistence;
+using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
 using Pacagroup.Ecommerce.Aplicacion.Validator.Customer;
-
-namespace Pacagroup.Ecommerce.Aplicacion.Main;
+using Pacagroup.Ecommerce.Domain.Entities;
+namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases;
 
 public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UserApplication> logger, CustomerDTOValidator customerDTOValidator) : ICustomerApplication
 {

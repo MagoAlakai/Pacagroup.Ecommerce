@@ -1,4 +1,4 @@
-﻿namespace Pacagroup.Ecommerce.Aplicacion.Interface;
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
 
 public interface IUserApplication
 {
