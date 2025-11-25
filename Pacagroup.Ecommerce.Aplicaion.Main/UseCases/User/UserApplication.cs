@@ -1,31 +1,14 @@
-﻿using Pacagroup.Ecommerce.Domain.Entities;
-
-namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases;
-
-public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger, UserDTOValidator UserDTOValidator, SignUpDTOValidator SignUpDTOValidator, SignInDTOValidator SignInDTOValidator) : IUserApplication
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases.User;
+public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService, IAppLogger<UserApplication> logger) : IUserApplication
 {
-    public async Task<Response<UserDTO?>> CreateUserAsync(SignUpDTO signUpDTO)
+    public async Task<Response<bool>> CreateUserAsync(SignUpDTO signUpDTO)
     {
-        Response<UserDTO?> response = new();
-        ValidationResult? validation = await SignUpDTOValidator.ValidateAsync(signUpDTO);
-
-        if (validation.IsValid is false)
-        {
-            response.Data = null;
-            response.IsSuccess = false;
-            response.Message = "Validation errors";
-            response.Errors = validation.Errors;
-
-            logger.LogError("Validation errors", response.Errors);
-
-            return response;
-        }
-
-        User? existingUser = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
+        Response<bool> response = new();
+        Domain.Entities.User? existingUser = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
 
         if (existingUser is not null)
         {
-            response.Data = null;
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "This User already exists!";
 
@@ -34,12 +17,12 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
             return response;
         }
 
-        User user = mapper.Map<User>(signUpDTO);
+        Domain.Entities.User user = mapper.Map<Domain.Entities.User>(signUpDTO);
         bool data = await unitOfWork.userRepository.CreateUserAsync(user, signUpDTO.Password);
 
         if (data is false)
         {
-            response.Data = null;
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "Error inserting User";
 
@@ -49,12 +32,12 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
         }
 
         await unitOfWork.SaveChangesAsync();
-        User? existingUsernow = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
+        Domain.Entities.User? existingUsernow = await unitOfWork.userRepository.GetByEmailAsync(signUpDTO.Email);
         UserDTO userDTOInserted = mapper.Map<UserDTO>(existingUsernow);
 
         response.IsSuccess = true;
         response.Message = "User registered";
-        response.Data = userDTOInserted;
+        response.Data = true;
 
         return response;
     }
@@ -62,21 +45,7 @@ public class UserApplication(IUnitOfWork unitOfWork, IMapper mapper, IJwtService
     public async Task<Response<TokenDTO>> IsValidUserAsync(SignInDTO signInDTO)
     {
         Response<TokenDTO> response = new();
-        ValidationResult? validation = await SignInDTOValidator.ValidateAsync(signInDTO);
-
-        if (validation.IsValid is false)
-        {
-            response.Data = null;
-            response.IsSuccess = false;
-            response.Message = "Validation errors";
-            response.Errors = validation.Errors;
-
-            logger.LogError("Validation errors", response.Errors);
-
-            return response;
-        }
-
-        User? user = await unitOfWork.userRepository.GetByEmailAsync(signInDTO.Email);
+        Domain.Entities.User? user = await unitOfWork.userRepository.GetByEmailAsync(signInDTO.Email);
 
         if (user is null)
         {

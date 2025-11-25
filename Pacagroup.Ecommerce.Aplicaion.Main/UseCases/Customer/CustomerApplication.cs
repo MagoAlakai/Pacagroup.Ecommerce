@@ -1,18 +1,10 @@
-﻿using FluentValidation;
-using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
-using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
-using Pacagroup.Ecommerce.Aplicacion.Interface.Persistence;
-using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
-using Pacagroup.Ecommerce.Aplicacion.Validator.Customer;
-using Pacagroup.Ecommerce.Domain.Entities;
-namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases;
-
-public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UserApplication> logger, CustomerDTOValidator customerDTOValidator) : ICustomerApplication
+﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer;
+public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<CustomerApplication> logger, CustomerDTOValidator customerDTOValidator) : ICustomerApplication
 {
     public async Task<Response<IEnumerable<CustomerDTO>>> GetAllAsync()
     {
         Response<IEnumerable<CustomerDTO>> response = new();
-        IEnumerable<Customer>? customerList = await unitOfWork.customerRepository.GetAllAsync();
+        IEnumerable<Domain.Entities.Customer>? customerList = await unitOfWork.customerRepository.GetAllAsync();
 
         if (customerList is null)
         {
@@ -39,7 +31,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
         if (customerId is null) throw new ArgumentNullException(nameof(customerId));
 
         Response<CustomerDTO> response = new();
-        Customer? customer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
+        Domain.Entities.Customer? customer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
 
         if (customer is null)
         {
@@ -61,15 +53,15 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
         return response;
     }
 
-    public async Task<Response<CustomerDTO>> InsertAsync(CustomerDTO customerDTO)
+    public async Task<Response<bool>> InsertAsync(CustomerDTO customerDTO)
     {
-        Response<CustomerDTO>? response = new();
+        Response<bool> response = new();
 
         ValidationResult? validation = await customerDTOValidator.ValidateAsync(customerDTO);
 
         if (validation.IsValid is false)
         {
-            response.Data = null;
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "Validation errors";
             response.Errors = validation.Errors;
@@ -78,12 +70,12 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
 
             return response;
         }
-        Customer customer = mapper.Map<Customer>(customerDTO);
-        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerDTO.CustomerId);
+        Domain.Entities.Customer customer = mapper.Map<Domain.Entities.Customer>(customerDTO);
+        Domain.Entities.Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerDTO.CustomerId);
 
         if (existingCustomer is not null)
         {
-            response.Data = null;
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "This Customer already exists!";
 
@@ -92,11 +84,11 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
             return response;
         }
 
-        Customer? data = await unitOfWork.customerRepository.PostAsync(customer);
+        Domain.Entities.Customer? data = await unitOfWork.customerRepository.PostAsync(customer);
 
         if(data is null)
         {
-            response.Data = null;
+            response.Data = false;
             response.IsSuccess = false;
             response.Message = "Error inserting customer";
 
@@ -110,7 +102,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
 
         response.IsSuccess = true;
         response.Message = "Insert successful";
-        response.Data = customerDTOInserted;
+        response.Data = true;
 
         return response;
     }
@@ -120,8 +112,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
         if (customerDTO is null) throw new ArgumentNullException(nameof(customerDTO));
 
         Response<bool> response = new();
-        Customer customer = mapper.Map<Customer>(customerDTO);
-        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
+        Domain.Entities.Customer customer = mapper.Map<Domain.Entities.Customer>(customerDTO);
+        Domain.Entities.Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
 
         if (existingCustomer is null) 
         {
@@ -134,7 +126,7 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
             return response;
         }
 
-        Customer? customerDTOUpdated = await unitOfWork.customerRepository.UpdateAsync(customer, customer.Id.ToString());
+        Domain.Entities.Customer? customerDTOUpdated = await unitOfWork.customerRepository.UpdateAsync(customer, customer.Id.ToString());
         if (customerDTOUpdated is null)
         {
             response.Data = false;
@@ -157,10 +149,8 @@ public class CustomerApplication(IMapper mapper, IUnitOfWork unitOfWork, IAppLog
 
     public async Task<Response<bool>> DeleteAsync(string customerId)
     {
-        if (customerId is null) throw new ArgumentNullException(nameof(customerId));
-
         Response<bool> response = new();
-        Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
+        Domain.Entities.Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
 
         if (existingCustomer is null)
         {

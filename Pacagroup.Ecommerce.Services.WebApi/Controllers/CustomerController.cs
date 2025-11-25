@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
-using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
-
-namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 
 [Authorize]
 [Route("api/customer")]
 [ApiController]
 [SwaggerTag("Operaciones de Customer")]
-public class CustomerController(ICustomerApplication customerApplication) : ControllerBase
+public class CustomerController(ICustomerApplication customerApplication, CustomerDTOValidator customerDTOValidator, IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Get all Customers
@@ -26,7 +22,7 @@ public class CustomerController(ICustomerApplication customerApplication) : Cont
     {
         try
         {
-            Response<IEnumerable<CustomerDTO>> response = await customerApplication.GetAllAsync();
+            Response<IEnumerable<CustomerDTO>> response = await mediator.Send(new GetAllCustomersQuery());
 
             if (response.IsSuccess is false || response.Data is null)
                 return BadRequest(response);
@@ -53,9 +49,11 @@ public class CustomerController(ICustomerApplication customerApplication) : Cont
     [SwaggerResponse(200, "Get succesfull", typeof(Response<CustomerDTO>))]
     public async Task<IActionResult> GetAsync(string customerId)
     {
+        if (customerId is null) return BadRequest(nameof(customerId));
+
         try
         {
-            Response<CustomerDTO> response = await customerApplication.GetAsync(customerId);
+            Response<CustomerDTO> response = await mediator.Send(new GetCustomerQuery(){ CustomerId = customerId });
 
             if (response.IsSuccess is false || response.Data is null)
                 return BadRequest(response);
@@ -73,22 +71,23 @@ public class CustomerController(ICustomerApplication customerApplication) : Cont
     /// </summary>
     /// <param name="customerDTO"></param>
     /// <remarks>POST https://localhost:7087/api/customer/InsertAsync</remarks>
-    /// <returns></returns>
+    /// <returns> Response<bool> </returns>
 
     [HttpPost("InsertAsync")]
     [SwaggerOperation(
     Summary = "Insert a Customer",
     Description = "Insert a Customer at the database")]
     [SwaggerResponse(200, "Insert successful", typeof(Response<CustomerDTO>))]
-    public async Task<IActionResult> PostAsync(CustomerDTO customerDTO)
+    public async Task<IActionResult> PostAsync(CreateCustomerCommand createCustomercommand)
     {
-        if (customerDTO is null) return BadRequest();
+        //ValidationResult? validation = await customerDTOValidator.ValidateAsync(createCustomercommand);
+        //if (validation.IsValid is false) return BadRequest();
 
         try
         {
-            Response<CustomerDTO> response = await customerApplication.InsertAsync(customerDTO);
+            Response<bool> response = await mediator.Send(createCustomercommand);
 
-            if (response.IsSuccess is false || response.Data is null)
+            if (response.IsSuccess is false || response.Data is false)
                 return BadRequest(response);
 
             return Ok(response);
@@ -102,7 +101,7 @@ public class CustomerController(ICustomerApplication customerApplication) : Cont
     /// <summary>
     /// Update a Customer
     /// </summary>
-    /// <param name="customerDTO"></param>
+    /// <param name="updateCustomerCommand"></param>
     /// /// <param name="customerId"></param>
     /// <remarks>PUT https://localhost:7087/api/customer/UpdateAsync/{customerId}</remarks>
     /// <returns></returns>
@@ -112,14 +111,14 @@ public class CustomerController(ICustomerApplication customerApplication) : Cont
     Summary = "Update a Customer",
     Description = "Update a Customer at the database")]
     [SwaggerResponse(200, "Update successful", typeof(Response<bool>))]
-    public async Task<IActionResult> UpdateAsync(CustomerDTO customerDTO, string customerId)
+    public async Task<IActionResult> UpdateAsync(UpdateCustomerCommand updateCustomerCommand, string customerId)
     {
-        if (customerDTO is null || customerId is null || customerId.Equals(customerDTO.CustomerId) is false)
-            return BadRequest();
+        //ValidationResult? validation = await customerDTOValidator.ValidateAsync(customerDTO);
+        //if (validation.IsValid is false || customerId is null) return BadRequest();
 
         try
         {
-            Response<bool> response = await customerApplication.UpdateAsync(customerDTO);
+            Response<bool> response = await mediator.Send(updateCustomerCommand);
 
             if (response.IsSuccess is false || response.Data is false)
                 return BadRequest(response);
@@ -146,9 +145,11 @@ public class CustomerController(ICustomerApplication customerApplication) : Cont
     [SwaggerResponse(200, "Delete successful", typeof(Response<bool>))]
     public async Task<IActionResult> DeleteAsync(string customerId)
     {
+        if (customerId is null) return BadRequest(nameof(customerId));
+
         try
         {
-            Response<bool> response = await customerApplication.DeleteAsync(customerId);
+            Response<bool> response = await mediator.Send(new DeleteCustomerCommand() { CustomerId = customerId });
 
             if (response.IsSuccess is false || response.Data is false)
                 return BadRequest(response);

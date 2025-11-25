@@ -92,12 +92,12 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
         };
 
         //Act
-        Response<CustomerDTO>? response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        Response<bool> response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response);
 
         //Assert
         Assert.IsFalse(response.IsSuccess);
-        Assert.IsNull(response.Data);
+        Assert.IsFalse(response.Data);
         Assert.AreEqual(response.Message, "Validation errors");
         Assert.IsTrue(response.Errors.Count() > 0);
     }
@@ -135,12 +135,12 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
         }
 
         //Act
-        Response<CustomerDTO>? response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        Response<bool> response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response);
 
         //Assert
         Assert.IsTrue(response.IsSuccess);
-        Assert.IsNotNull(response.Data);
+        Assert.IsTrue(response.Data);
         Assert.AreEqual(response.Message, "Insert successful");
         Assert.IsNull(response.Errors);
 
@@ -178,10 +178,10 @@ public sealed class CustomerApplicationTest : LogicUnitTestAbstraction
             Fax = "TestFax"
         };
 
-        Response<CustomerDTO>? response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        Response<bool> response = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
 
         //Act
-        Response<CustomerDTO>? responseInserted = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
+        Response<bool> responseInserted = customerApplication.InsertAsync(customerDTO).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", responseInserted);
 
         //Assert

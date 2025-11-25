@@ -39,12 +39,12 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
         }
 
         //Act
-        Response<UserDTO?> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
+        Response<bool> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response);
 
         //Assert
         Assert.IsTrue(response.IsSuccess);
-        Assert.IsNotNull(response.Data);
+        Assert.IsTrue(response.Data);
         Assert.AreEqual(response.Message, "User registered");
         Assert.IsNull(response.Errors);
     }
@@ -68,8 +68,8 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
         };
 
         //Act
-        Response<UserDTO?> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
-        Response<UserDTO?> response1 = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
+        Response<bool> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
+        Response<bool> response1 = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response1);
 
         //Assert
@@ -102,7 +102,7 @@ public sealed class UserApplicationTest : LogicUnitTestAbstraction
         };
 
         //Act
-        Response<UserDTO?> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
+        Response<bool> response = userApplication.CreateUserAsync(signUpDTO).GetAwaiter().GetResult();
         ConsoleWriteObject("Response", response);
 
         //Assert

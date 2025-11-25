@@ -1,10 +1,20 @@
 ﻿global using Azure.Core.Serialization;
+global using FluentValidation.Results;
+global using MediatR;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi;
+global using Pacagroup.Ecommerce.Aplicacion.DTO.Customer;
 global using Pacagroup.Ecommerce.Aplicacion.DTO.Identity;
+global using Pacagroup.Ecommerce.Aplicacion.Interface.UseCases;
 global using Pacagroup.Ecommerce.Aplicacion.Main.Extensions;
+global using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Commands.CreateCustomerCommand;
+global using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Commands.DeleteCustomerCommand;
+global using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Commands.UdpateCustomerCommand;
+global using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Queries.GetAllCustomersQuery;
+global using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Queries.GetCustomerQuery;
 global using Pacagroup.Ecommerce.Aplicacion.Validator.Customer;
 global using Pacagroup.Ecommerce.Aplicacion.Validator.Identity;
 global using Pacagroup.Ecommerce.Persistence.Extensions;
@@ -19,4 +29,3 @@ global using Serilog;
 global using Swashbuckle.AspNetCore.Annotations;
 global using System.Net;
 global using System.Text;
-
