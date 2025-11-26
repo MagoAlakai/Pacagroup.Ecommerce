@@ -1,6 +1,4 @@
-﻿using Pacagroup.Ecommerce.Domain.Entities;
-
-namespace Pacagroup.Ecommerce.Transversal.Common;
+﻿namespace Pacagroup.Ecommerce.Transversal.Common;
 public class JwtService(IConfiguration configuration) : IJwtService
 {
     public string GenerateToken(User user)

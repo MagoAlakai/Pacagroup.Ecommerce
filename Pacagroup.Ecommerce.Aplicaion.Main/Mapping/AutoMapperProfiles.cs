@@ -29,7 +29,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
 
         CreateMap<SignUpDTO, CreateUserCommand>().ReverseMap();
-        CreateMap<SignInDTO, CreateUserCommand>().ReverseMap();
+        CreateMap<SignInDTO, IsValidUserCommand>().ReverseMap();
 
         CreateMap<User, CreateUserCommand>().ReverseMap();
         CreateMap<User, IsValidUserCommand>().ReverseMap();

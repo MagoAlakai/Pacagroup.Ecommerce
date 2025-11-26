@@ -21,3 +21,4 @@ global using Pacagroup.Ecommerce.Transversal.Common;
 global using Pacagroup.Ecommerce.Transversal.Common.Interfaces;
 global using Pacagroup.Ecommerce.Transversal.Logging.Interfaces;
 global using System.Reflection;
+
