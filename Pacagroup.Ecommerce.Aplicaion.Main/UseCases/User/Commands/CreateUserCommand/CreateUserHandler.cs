@@ -1,9 +1,24 @@
 ﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases.User.Commands.CreateUserCommand;
-public class CreateUserHandler(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UserApplication> logger) : IRequestHandler<CreateUserCommand, Response<bool>>
+public class CreateUserHandler(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<CreateUserCommand> logger, SignUpDTOValidator signUpDTOValidator) : IRequestHandler<CreateUserCommand, Response<bool>>
 {
     public async Task<Response<bool>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        Response<bool> response = new();
+        Response<bool> response = new(); 
+        SignUpDTO signUpDTO = mapper.Map<SignUpDTO>(request);
+        ValidationResult? validation = await signUpDTOValidator.ValidateAsync(signUpDTO);
+
+        if (validation.IsValid is false)
+        {
+            response.Data = false;
+            response.IsSuccess = false;
+            response.Message = "Validation errors";
+            response.Errors = validation.Errors;
+
+            logger.LogError("Validation errors", response.Errors);
+
+            return response;
+        }
+
         string email = request.Email ?? throw new ArgumentNullException(nameof(request.Email));
         Domain.Entities.User? existingUser = await unitOfWork.userRepository.GetByEmailAsync(email);
 

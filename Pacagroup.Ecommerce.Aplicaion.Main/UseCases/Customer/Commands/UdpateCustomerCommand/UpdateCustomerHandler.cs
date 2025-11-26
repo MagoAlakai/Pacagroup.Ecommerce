@@ -1,10 +1,26 @@
 ﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Commands.UdpateCustomerCommand;
 
-public class UpdateCustomerHandler(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<CustomerApplication> logger) : IRequestHandler<UpdateCustomerCommand, Response<bool>>
+public class UpdateCustomerHandler(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<UpdateCustomerHandler> logger, CustomerDTOValidator customerDTOValidator) : IRequestHandler<UpdateCustomerCommand, Response<bool>>
 {
     public async Task<Response<bool>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         Response<bool> response = new();
+
+        CustomerDTO customerDTO = mapper.Map<CustomerDTO>(request);
+        ValidationResult? validation = await customerDTOValidator.ValidateAsync(customerDTO);
+
+        if (validation.IsValid is false)
+        {
+            response.Data = false;
+            response.IsSuccess = false;
+            response.Message = "Validation errors";
+            response.Errors = validation.Errors;
+
+            logger.LogError("Validation errors", response.Errors);
+
+            return response;
+        }
+
         Domain.Entities.Customer customer = mapper.Map<Domain.Entities.Customer>(request);
         Domain.Entities.Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customer.Id.ToString());
 

@@ -1,10 +1,26 @@
 ﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Commands.DeleteCustomerCommand;
 
-public class DeleteCustomerHandler(IUnitOfWork unitOfWork, IAppLogger<CustomerApplication> logger) : IRequestHandler<DeleteCustomerCommand, Response<bool>>
+public class DeleteCustomerHandler(IUnitOfWork unitOfWork, IAppLogger<DeleteCustomerCommand> logger, IMapper mapper, CustomerDTOValidator customerDTOValidator) : IRequestHandler<DeleteCustomerCommand, Response<bool>>
 {
     public async Task<Response<bool>> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {
         Response<bool> response = new();
+
+        CustomerDTO customerDTO = mapper.Map<CustomerDTO>(request);
+        ValidationResult? validation = await customerDTOValidator.ValidateAsync(customerDTO);
+
+        if (validation.IsValid is false)
+        {
+            response.Data = false;
+            response.IsSuccess = false;
+            response.Message = "Validation errors";
+            response.Errors = validation.Errors;
+
+            logger.LogError("Validation errors", response.Errors);
+
+            return response;
+        }
+
         string customerId = request.CustomerId ?? throw new ArgumentNullException(nameof(request.CustomerId));
         Domain.Entities.Customer? existingCustomer = await unitOfWork.customerRepository.GetByIdAsync(customerId);
 

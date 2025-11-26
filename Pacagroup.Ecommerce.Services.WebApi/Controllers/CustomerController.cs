@@ -4,7 +4,7 @@
 [Route("api/customer")]
 [ApiController]
 [SwaggerTag("Operaciones de Customer")]
-public class CustomerController(ICustomerApplication customerApplication, CustomerDTOValidator customerDTOValidator, IMediator mediator) : ControllerBase
+public class CustomerController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Get all Customers
@@ -80,9 +80,6 @@ public class CustomerController(ICustomerApplication customerApplication, Custom
     [SwaggerResponse(200, "Insert successful", typeof(Response<CustomerDTO>))]
     public async Task<IActionResult> PostAsync(CreateCustomerCommand createCustomercommand)
     {
-        //ValidationResult? validation = await customerDTOValidator.ValidateAsync(createCustomercommand);
-        //if (validation.IsValid is false) return BadRequest();
-
         try
         {
             Response<bool> response = await mediator.Send(createCustomercommand);
@@ -113,9 +110,6 @@ public class CustomerController(ICustomerApplication customerApplication, Custom
     [SwaggerResponse(200, "Update successful", typeof(Response<bool>))]
     public async Task<IActionResult> UpdateAsync(UpdateCustomerCommand updateCustomerCommand, string customerId)
     {
-        //ValidationResult? validation = await customerDTOValidator.ValidateAsync(customerDTO);
-        //if (validation.IsValid is false || customerId is null) return BadRequest();
-
         try
         {
             Response<bool> response = await mediator.Send(updateCustomerCommand);

@@ -3,6 +3,7 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
+        //CUSTOMER MAPPINGS
         CreateMap<CustomerDTO, Domain.Entities.Customer>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CustomerId));
 
@@ -13,13 +14,22 @@ public class AutoMapperProfiles : Profile
            .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id));
 
         CreateMap<CreateCustomerCommand, Domain.Entities.Customer>()
-    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CustomerId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CustomerId));
+
+        CreateMap<CustomerDTO, CreateCustomerCommand>().ReverseMap();
+        CreateMap<CustomerDTO, UpdateCustomerCommand>().ReverseMap();
+        CreateMap<CustomerDTO, DeleteCustomerCommand>().ReverseMap();
+
+        //USER MAPPINGS
 
         CreateMap<User, UserDTO>().ReverseMap();
 
         CreateMap<SignUpDTO, User>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+
+        CreateMap<SignUpDTO, CreateUserCommand>().ReverseMap();
+        CreateMap<SignInDTO, CreateUserCommand>().ReverseMap();
 
         CreateMap<User, CreateUserCommand>().ReverseMap();
         CreateMap<User, IsValidUserCommand>().ReverseMap();

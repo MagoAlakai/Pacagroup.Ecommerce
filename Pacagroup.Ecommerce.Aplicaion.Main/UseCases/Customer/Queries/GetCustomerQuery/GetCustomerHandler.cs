@@ -1,5 +1,5 @@
 ﻿namespace Pacagroup.Ecommerce.Aplicacion.Main.UseCases.Customer.Queries.GetCustomerQuery;
-internal class GetCustomerHandler(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<CustomerApplication> logger) : IRequestHandler<GetCustomerQuery, Response<CustomerDTO>>
+public class GetCustomerHandler(IMapper mapper, IUnitOfWork unitOfWork, IAppLogger<GetCustomerHandler> logger) : IRequestHandler<GetCustomerQuery, Response<CustomerDTO>>
 {
     public async Task<Response<CustomerDTO>> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
     {

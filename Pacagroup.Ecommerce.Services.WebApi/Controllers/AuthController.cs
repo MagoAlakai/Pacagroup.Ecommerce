@@ -1,12 +1,9 @@
-﻿using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.User.Commands.CreateUserCommand;
-using Pacagroup.Ecommerce.Aplicacion.Main.UseCases.User.Commands.IsValidUserCommand;
-
-namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
+﻿namespace Pacagroup.Ecommerce.Services.WebApi.Controllers;
 
 [Route("api/auth")]
 [ApiController]
 [SwaggerTag("Operaciones de Atenticación")]
-public class AuthController(IUserApplication userApplication, SignUpDTOValidator signUpDTOValidator, SignInDTOValidator signInDTOValidator, IMediator mediator) : ControllerBase
+public class AuthController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Register a new User
@@ -22,10 +19,7 @@ public class AuthController(IUserApplication userApplication, SignUpDTOValidator
     [SwaggerResponse(200, "User registered", typeof(Response<TokenDTO>))]
 
     public async Task<IActionResult> SignUpAsync([FromBody] CreateUserCommand createUserCommand)
-    {
-        //ValidationResult? validation = await signUpDTOValidator.ValidateAsync(signUpDTO);
-        //if (validation.IsValid is false) return BadRequest();
-        
+    {        
         try
         {
             Response<bool> response = await mediator.Send(createUserCommand);
@@ -56,10 +50,7 @@ public class AuthController(IUserApplication userApplication, SignUpDTOValidator
 
     public async Task<IActionResult> SignInAsync([FromBody] IsValidUserCommand isValidUserCommand)
     {
-        //ValidationResult? validation = await signInDTOValidator.ValidateAsync(signInDTO);
-        //if (validation.IsValid is false) return BadRequest();
-
-        try
+       try
         {
             Response<TokenDTO> response = await mediator.Send(isValidUserCommand);
 
